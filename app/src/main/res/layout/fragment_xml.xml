@@ -1,0 +1,96 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="10dp"
+        android:text="@string/information_demo_one"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <!--<CheckBox-->
+    <!--android:id="@+id/chTitle"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignLeft="@+id/textView"-->
+    <!--android:layout_alignStart="@+id/textView"-->
+    <!--android:layout_below="@+id/textView"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:text="@string/show_title"-->
+    <!--android:textSize="16sp" />-->
+
+    <!--<CheckBox-->
+    <!--android:id="@+id/chOverlay"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignLeft="@+id/chTitle"-->
+    <!--android:layout_alignStart="@+id/chTitle"-->
+    <!--android:layout_below="@+id/chTitle"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:text="@string/show_overlay"-->
+    <!--android:textSize="16sp" />-->
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="10dp"
+        android:text="@string/change_direction"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Spinner
+        android:id="@+id/spDirection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_below="@+id/textView2"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/spDirection"
+        android:layout_alignStart="@+id/spDirection"
+        android:layout_below="@+id/spDirection"
+        android:layout_margin="10dp"
+        android:text="@string/direction_hint"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:src="@android:drawable/ic_menu_manage"
+        app:backgroundTint="@color/colorPrimary"
+        app:fabSize="normal" />
+
+    <com.hlab.fabrevealmenu.view.FABRevealMenu
+        android:id="@+id/fabMenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        app:animateItems="true"
+        app:menuBackgroundColor="@color/colorPrimaryDark"
+        app:menuDirection="left"
+        app:menuRes="@menu/menu_fab"
+        app:menuTitleTextColor="@color/colorWhite"
+        app:showOverlay="true"
+        app:showTitle="true"/>
+
+</RelativeLayout>

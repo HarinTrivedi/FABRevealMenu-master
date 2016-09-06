@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="FABRevealMenu">
+        <attr name="menuBackgroundColor" format="color" />
+        <attr name="menuCustomView" format="reference" />
+        <attr name="menuRes" format="reference" />
+        <attr name="menuDirection" format="enum">
+            <enum name="left" value="0" />
+            <enum name="up" value="1" />
+            <enum name="right" value="2" />
+            <enum name="down" value="3" />
+        </attr>
+        <attr name="showOverlay" format="boolean" />
+        <attr name="overlayBackground" format="color" />
+
+        <attr name="showTitle" format="boolean" />
+        <attr name="menuTitleTextColor" format="color" />
+        <attr name="animateItems" format="boolean" />
+    </declare-styleable>
+
+</resources>

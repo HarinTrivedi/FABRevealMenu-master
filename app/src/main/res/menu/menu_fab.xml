@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_attachment"
+        android:icon="@drawable/ic_attachment"
+        android:title="Attachments" />
+
+    <item
+        android:id="@+id/menu_image"
+        android:icon="@drawable/ic_image"
+        android:title="Images" />
+
+    <item
+        android:id="@+id/menu_place"
+        android:icon="@drawable/ic_place"
+        android:title="Places" />
+
+    <item
+        android:id="@+id/menu_emoticon"
+        android:icon="@drawable/ic_emoticon"
+        android:title="Emoticon" />
+
+
+</menu>

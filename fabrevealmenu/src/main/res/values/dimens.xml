@@ -1,0 +1,14 @@
+<resources>
+    <dimen name="shape_padding">5dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="menu_margin">16dp</dimen>
+    <dimen name="menu_padding_horizontal">14dp</dimen>
+    <dimen name="menu_padding_vertical">20dp</dimen>
+    <dimen name="menu_size_horizontal">38dp</dimen>
+    <dimen name="menu_size_vertical">30dp</dimen>
+    <dimen name="column_size">50dp</dimen>
+    <dimen name="card_radius">3dp</dimen>
+    <dimen name="extra_margin">7dp</dimen>
+    <dimen name="menu_min_width">200dp</dimen>
+    <dimen name="row_horizontal_size">70dp</dimen>
+</resources>

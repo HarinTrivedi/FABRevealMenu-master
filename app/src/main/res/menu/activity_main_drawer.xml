@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_xml"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="BY XML" />
+        <item
+            android:id="@+id/nav_code"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="BY CODE" />
+
+    </group>
+
+    <item
+        android:id="@+id/nav_custom"
+        android:icon="@drawable/ic_menu_send"
+        android:title="Custom View" />
+
+
+</menu>
