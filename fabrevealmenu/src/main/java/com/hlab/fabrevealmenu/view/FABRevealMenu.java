@@ -110,7 +110,7 @@ public class FABRevealMenu extends FrameLayout {
             //custom view
             int customView = a.getResourceId(R.styleable.FABRevealMenu_menuCustomView, -1);
             if (customView != -1) {
-                mCustomView = LayoutInflater.from(context).inflate(customView, this, true);
+                mCustomView = LayoutInflater.from(context).inflate(customView, null);
             }
 
             //direction

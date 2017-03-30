@@ -43,7 +43,6 @@ public class ScrollingActivity extends AppCompatActivity {
                 setupCustomFilterView(customView);
                 fabMenu.setCustomView(customView);
                 fabMenu.bindAncherView(fab);
-//                setupCustomFilterView(fabMenu.getCustomView());
             }
         } catch (Exception e) {
             e.printStackTrace();
