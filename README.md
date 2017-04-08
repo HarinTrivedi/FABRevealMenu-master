@@ -21,6 +21,9 @@ Please follow wiki page for instructions
 
 1. ArcAnimator <https://github.com/asyl/ArcAnimator>
 2. CircularReveal <https://github.com/ozodrukh/CircularReveal>
+##
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/HarinTrivedi/)
 
 ## LICENSE
 ````
