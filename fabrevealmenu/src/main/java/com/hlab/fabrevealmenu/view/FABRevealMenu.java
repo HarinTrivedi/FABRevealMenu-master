@@ -73,6 +73,8 @@ public class FABRevealMenu extends FrameLayout {
     private ViewHelper viewHelper;
     private AnimationHelper animationHelper;
 
+    private OnMenuStateChanged menuStateCallback;
+
     private final int CONST_DELAY = 700;
 
     public FABRevealMenu(Context context) {
@@ -146,6 +148,10 @@ public class FABRevealMenu extends FrameLayout {
         mCustomView.setClickable(true);
         viewHelper.setLayoutParams(mCustomView);
         setUpView(mCustomView, false);
+    }
+
+    public void setOnMenuStateChanged(OnMenuStateChanged menuStateCallback) {
+        this.menuStateCallback = menuStateCallback;
     }
 
     public void setMenu(@MenuRes int menuRes) {
@@ -295,6 +301,7 @@ public class FABRevealMenu extends FrameLayout {
 
         if (FAB_CURRENT_STATE == FAB_STATE_COLLAPSED) {
             FAB_CURRENT_STATE = FAB_STATE_EXPANDED;
+            if (menuStateCallback != null) menuStateCallback.onExpand();
 
             animationHelper.moveFab(mFab, mRevealView, mDirection, false, new AnimationListener() {
                 @Override
@@ -335,6 +342,7 @@ public class FABRevealMenu extends FrameLayout {
 
         if (FAB_CURRENT_STATE == FAB_STATE_EXPANDED) {
             FAB_CURRENT_STATE = FAB_STATE_COLLAPSED;
+            if (menuStateCallback != null) menuStateCallback.onCollapse();
 
             int initialRadius = Math.max(mBaseView.getWidth(), mBaseView.getHeight());
             animationHelper.revealMenu(mBaseView, initialRadius, mFab.getWidth() / 2, true, new AnimationListener() {
