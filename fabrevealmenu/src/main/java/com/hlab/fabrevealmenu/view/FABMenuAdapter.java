@@ -1,5 +1,6 @@
 package com.hlab.fabrevealmenu.view;
 
+import android.content.res.ColorStateList;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
     private int rowLayoutResId = 0;
     private boolean showTitle = false;
     private int titleTextColor;
+    private int titleDisabledTextColor;
     private Direction direction;
     private boolean isCircularShape;
 
@@ -38,7 +40,7 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
     private int lastAnimatedPosition = -1;
     private int maxDuration;
 
-    public FABMenuAdapter(FABRevealMenu parent, List<FABMenuItem> mItems, int rowLayoutResId, boolean isCircularShape, int titleTextColor,
+    public FABMenuAdapter(FABRevealMenu parent, List<FABMenuItem> mItems, int rowLayoutResId, boolean isCircularShape, int titleTextColor, int titleDisabledTextColor,
                           boolean showTitle, Direction direction, boolean animateItems) {
         this.parent = parent;
         this.mItems = mItems;
@@ -46,6 +48,7 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
         this.isCircularShape = isCircularShape;
         this.showTitle = showTitle;
         this.titleTextColor = titleTextColor;
+        this.titleDisabledTextColor = titleDisabledTextColor;
         this.animateItems = animateItems;
         this.direction = direction;
     }
@@ -60,6 +63,7 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.setData(mItems.get(position));
         holder.itemView.setEnabled(mItems.get(position).isEnabled());
+        holder.tvTitle.setEnabled(mItems.get(position).isEnabled());
         // Here you apply the animation when the view is bound
         runEnterAnimation(holder.itemView, position);
     }
@@ -105,7 +109,7 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
             super(itemView);
             viewParent = (RelativeLayout) itemView.findViewById(R.id.view_parent);
             tvTitle = (TextView) itemView.findViewById(R.id.txt_title_menu_item);
-            tvTitle.setTextColor(titleTextColor);
+            tvTitle.setTextColor(new ColorStateList(new int[][] { new int[] { android.R.attr.state_enabled}, new int[] {-android.R.attr.state_enabled}}, new int[]{titleTextColor, titleDisabledTextColor}));
             tvTitle.setVisibility(showTitle ? View.VISIBLE : View.GONE);
             imgIcon = (ImageView) itemView.findViewById(R.id.img_menu_item);
 
@@ -194,6 +198,10 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
 
     public void setTitleTextColor(int titleTextColor) {
         this.titleTextColor = titleTextColor;
+    }
+
+    public void setTitleDisabledTextColor(int titleDisabledTextColor) {
+        this.titleDisabledTextColor = titleDisabledTextColor;
     }
 
     public Direction getDirection() {

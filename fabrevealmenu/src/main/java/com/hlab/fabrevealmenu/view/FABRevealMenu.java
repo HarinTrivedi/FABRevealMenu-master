@@ -50,6 +50,7 @@ public class FABRevealMenu extends FrameLayout {
     @BoolRes
     private boolean mShowTitle;
     private int mTitleTextColor;
+    private int mTitleDisabledTextColor;
 
     private boolean animateItems;
     //Common constants
@@ -118,6 +119,7 @@ public class FABRevealMenu extends FrameLayout {
 
             //title
             mTitleTextColor = a.getColor(R.styleable.FABRevealMenu_menuTitleTextColor, getColor(android.R.color.white));
+            mTitleDisabledTextColor = a.getColor(R.styleable.FABRevealMenu_menuTitleDisabledTextColor, getColor(android.R.color.darker_gray));
             mShowTitle = a.getBoolean(R.styleable.FABRevealMenu_showTitle, true);
             mShowOverlay = a.getBoolean(R.styleable.FABRevealMenu_showOverlay, true);
 
@@ -211,11 +213,11 @@ public class FABRevealMenu extends FrameLayout {
             //set layout manager
             if (mDirection == Direction.LEFT || mDirection == Direction.RIGHT) {
                 mMenuView.setLayoutManager(new DynamicGridLayoutManager(mContext, (int) mContext.getResources().getDimension(R.dimen.column_size), menuList.size()));
-                menuAdapter = new FABMenuAdapter(this, menuList, R.layout.row_horizontal_menu_item, true, mTitleTextColor, mShowTitle, mDirection, animateItems);
+                menuAdapter = new FABMenuAdapter(this, menuList, R.layout.row_horizontal_menu_item, true, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mDirection, animateItems);
             } else {
                 isCircularShape = !mShowTitle;
                 mMenuView.setLayoutManager(new DynamicGridLayoutManager(mContext, 0, 0));
-                menuAdapter = new FABMenuAdapter(this, menuList, R.layout.row_vertical_menu_item, isCircularShape, mTitleTextColor, mShowTitle, mDirection, animateItems);
+                menuAdapter = new FABMenuAdapter(this, menuList, R.layout.row_vertical_menu_item, isCircularShape, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mDirection, animateItems);
             }
             mMenuView.setAdapter(menuAdapter);
 
@@ -484,6 +486,13 @@ public class FABRevealMenu extends FrameLayout {
         this.mTitleTextColor = mTitleTextColor;
         if (menuAdapter != null) {
             menuAdapter.setTitleTextColor(mTitleTextColor);
+        }
+    }
+
+    public void setMenuTitleDisabledTextColor(@ColorRes int mTitleDisabledTextColor) {
+        this.mTitleDisabledTextColor = mTitleDisabledTextColor;
+        if (menuAdapter != null) {
+            menuAdapter.setTitleDisabledTextColor(mTitleDisabledTextColor);
         }
     }
 
