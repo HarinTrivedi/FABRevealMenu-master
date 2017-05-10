@@ -59,6 +59,7 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.setData(mItems.get(position));
+        holder.itemView.setEnabled(mItems.get(position).isEnabled());
         // Here you apply the animation when the view is bound
         runEnterAnimation(holder.itemView, position);
     }
@@ -66,6 +67,31 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
     @Override
     public int getItemCount() {
         return mItems.size();
+    }
+
+    public FABMenuItem getItemByIndex(int index) {
+        if (index >= 0 && index < mItems.size()) {
+            return mItems.get(index);
+        }
+        return null;
+    }
+
+    public FABMenuItem getItemById(int id) {
+        for (int i = 0; i < mItems.size(); i++) {
+            if (mItems.get(i).getId() == id) {
+                return mItems.get(i);
+            }
+        }
+        return null;
+    }
+
+    public void notifyItemChangedById(int id) {
+        for (int i = 0; i < mItems.size(); i++) {
+            if (mItems.get(i).getId() == id) {
+                notifyItemChanged(i);
+                return;
+            }
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -80,6 +106,7 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
             viewParent = (RelativeLayout) itemView.findViewById(R.id.view_parent);
             tvTitle = (TextView) itemView.findViewById(R.id.txt_title_menu_item);
             tvTitle.setTextColor(titleTextColor);
+            tvTitle.setVisibility(showTitle ? View.VISIBLE : View.GONE);
             imgIcon = (ImageView) itemView.findViewById(R.id.img_menu_item);
 
             viewParent.setBackgroundResource(isCircularShape ?
@@ -94,16 +121,15 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
             viewParent.setTag(item.getId());
             tvTitle.setText(item.getTitle());
             imgIcon.setImageDrawable(item.getIconDrawable());
-            if (showTitle)
-                tvTitle.setVisibility(View.VISIBLE);
-            else
-                tvTitle.setVisibility(View.GONE);
+
         }
 
         @Override
         public void onClick(View v) {
-            parent.closeMenu();
-            parent.menuSelectedListener.onMenuItemSelected(v);
+            if (item.isEnabled()) {
+                parent.closeMenu();
+                parent.menuSelectedListener.onMenuItemSelected(v, item.getId());
+            }
         }
     }
 

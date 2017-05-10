@@ -157,6 +157,15 @@ public class FABRevealMenu extends FrameLayout {
         setUpMenu(menu);
     }
 
+    public void updateMenu() {
+        mCustomView = null;
+        removeAllViews();
+        if (menuList.size() > 0) {
+            setUpMenuView();
+        } else
+            setMenu(mMenuRes);
+    }
+
     public void setMenuItems(ArrayList<FABMenuItem> menuList) throws NullPointerException {
         this.menuList = menuList;
 
@@ -275,6 +284,43 @@ public class FABRevealMenu extends FrameLayout {
 
     // --- action methods --- //
 
+    public FABMenuItem getItemByIndex(int index) {
+        if (menuAdapter != null) {
+            return menuAdapter.getItemByIndex(index);
+        }
+        return null;
+    }
+
+    public FABMenuItem getItemById(int id) {
+        if (menuAdapter != null) {
+            return menuAdapter.getItemById(id);
+        }
+        return null;
+    }
+
+    public boolean removeItem(int id) {
+        if (menuList != null) {
+            for (int i = 0; i < menuList.size(); i++) {
+                if (menuList.get(i).getId() == id) {
+                    menuList.remove(i);
+                    ((DynamicGridLayoutManager)mMenuView.getLayoutManager()).updateTotalItems(menuList.size());
+                    if (menuAdapter != null) {
+                        menuAdapter.notifyItemRemoved(i);
+                        menuAdapter.notifyItemRangeChanged(i, menuList.size());
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void notifyItemChanged(int id) {
+        if (menuAdapter != null) {
+            menuAdapter.notifyItemChangedById(id);
+        }
+    }
+
     public void setOnFABMenuSelectedListener(OnFABMenuSelectedListener menuSelectedListener) {
         this.menuSelectedListener = menuSelectedListener;
     }
@@ -371,7 +417,7 @@ public class FABRevealMenu extends FrameLayout {
 
     private void recreateView() {
         if (mMenuRes != -1)
-            setMenu(mMenuRes);
+            updateMenu();
         else if (mCustomView != null)
             setCustomView(mCustomView);
         else if (menuList != null)

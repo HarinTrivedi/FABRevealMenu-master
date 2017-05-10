@@ -21,6 +21,10 @@ public class DynamicGridLayoutManager extends GridLayoutManager {
         super.onLayoutChildren(recycler, state);
     }
 
+    public void updateTotalItems(int totalItems) {
+        this.totalItems = totalItems;
+    }
+
     private void updateSpanCount() {
         int spanCount = 1;
         if (minItemWidth != 0) {
