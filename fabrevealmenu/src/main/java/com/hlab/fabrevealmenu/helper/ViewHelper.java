@@ -42,12 +42,13 @@ public class ViewHelper {
         return mBaseView;
     }
 
-    public RecyclerView generateMenuView() {
+    public RecyclerView generateMenuView(boolean enableNestedScrolling) {
         //Create menu view
         RecyclerView mMenuView = new RecyclerView(mContext);
         mMenuView.setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
         mMenuView.setBackgroundColor(Color.TRANSPARENT);
         mMenuView.setLayoutParams(matchParams);
+        mMenuView.setNestedScrollingEnabled(enableNestedScrolling);
         return mMenuView;
     }
 

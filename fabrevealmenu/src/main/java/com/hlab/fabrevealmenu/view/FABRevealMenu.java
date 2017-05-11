@@ -63,6 +63,7 @@ public class FABRevealMenu extends FrameLayout {
     private FrameLayout mOverlayLayout = null;
     private RevealLinearLayout mRevealView = null;
     private RecyclerView mMenuView = null;
+    private boolean mEnableNestedScrolling = true;
     private CardView mBaseView = null;
     private FABMenuAdapter menuAdapter = null;
 
@@ -150,6 +151,10 @@ public class FABRevealMenu extends FrameLayout {
         setUpView(mCustomView, false);
     }
 
+    public void setNestedScrollingEnabled(boolean enabled) {
+        mEnableNestedScrolling = enabled;
+    }
+
     public void setMenu(@MenuRes int menuRes) {
         mCustomView = null;
         mMenuRes = menuRes;
@@ -207,7 +212,7 @@ public class FABRevealMenu extends FrameLayout {
 
     private void setUpMenuView() {
         if (menuList != null && menuList.size() > 0) {
-            mMenuView = viewHelper.generateMenuView();
+            mMenuView = viewHelper.generateMenuView(mEnableNestedScrolling);
 
             boolean isCircularShape = false;
             //set layout manager
