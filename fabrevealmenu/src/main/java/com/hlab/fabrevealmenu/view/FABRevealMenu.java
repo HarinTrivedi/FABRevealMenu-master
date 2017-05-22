@@ -50,6 +50,7 @@ public class FABRevealMenu extends FrameLayout {
     @BoolRes
     private boolean mShowTitle;
     private int mTitleTextColor;
+    private int mTitleDisabledTextColor;
 
     private boolean animateItems;
     //Common constants
@@ -62,6 +63,7 @@ public class FABRevealMenu extends FrameLayout {
     private FrameLayout mOverlayLayout = null;
     private RevealLinearLayout mRevealView = null;
     private RecyclerView mMenuView = null;
+    private boolean mEnableNestedScrolling = true;
     private CardView mBaseView = null;
     private FABMenuAdapter menuAdapter = null;
 
@@ -118,6 +120,7 @@ public class FABRevealMenu extends FrameLayout {
 
             //title
             mTitleTextColor = a.getColor(R.styleable.FABRevealMenu_menuTitleTextColor, getColor(android.R.color.white));
+            mTitleDisabledTextColor = a.getColor(R.styleable.FABRevealMenu_menuTitleDisabledTextColor, getColor(android.R.color.darker_gray));
             mShowTitle = a.getBoolean(R.styleable.FABRevealMenu_showTitle, true);
             mShowOverlay = a.getBoolean(R.styleable.FABRevealMenu_showOverlay, true);
 
@@ -148,6 +151,10 @@ public class FABRevealMenu extends FrameLayout {
         setUpView(mCustomView, false);
     }
 
+    public void setNestedScrollingEnabled(boolean enabled) {
+        mEnableNestedScrolling = enabled;
+    }
+
     public void setMenu(@MenuRes int menuRes) {
         mCustomView = null;
         mMenuRes = menuRes;
@@ -155,6 +162,15 @@ public class FABRevealMenu extends FrameLayout {
         Menu menu = new MenuBuilder(getContext());
         new MenuInflater(getContext()).inflate(menuRes, menu);
         setUpMenu(menu);
+    }
+
+    public void updateMenu() {
+        mCustomView = null;
+        removeAllViews();
+        if (menuList.size() > 0) {
+            setUpMenuView();
+        } else
+            setMenu(mMenuRes);
     }
 
     public void setMenuItems(ArrayList<FABMenuItem> menuList) throws NullPointerException {
@@ -196,17 +212,17 @@ public class FABRevealMenu extends FrameLayout {
 
     private void setUpMenuView() {
         if (menuList != null && menuList.size() > 0) {
-            mMenuView = viewHelper.generateMenuView();
+            mMenuView = viewHelper.generateMenuView(mEnableNestedScrolling);
 
             boolean isCircularShape = false;
             //set layout manager
             if (mDirection == Direction.LEFT || mDirection == Direction.RIGHT) {
                 mMenuView.setLayoutManager(new DynamicGridLayoutManager(mContext, (int) mContext.getResources().getDimension(R.dimen.column_size), menuList.size()));
-                menuAdapter = new FABMenuAdapter(this, menuList, R.layout.row_horizontal_menu_item, true, mTitleTextColor, mShowTitle, mDirection, animateItems);
+                menuAdapter = new FABMenuAdapter(this, menuList, R.layout.row_horizontal_menu_item, true, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mDirection, animateItems);
             } else {
                 isCircularShape = !mShowTitle;
                 mMenuView.setLayoutManager(new DynamicGridLayoutManager(mContext, 0, 0));
-                menuAdapter = new FABMenuAdapter(this, menuList, R.layout.row_vertical_menu_item, isCircularShape, mTitleTextColor, mShowTitle, mDirection, animateItems);
+                menuAdapter = new FABMenuAdapter(this, menuList, R.layout.row_vertical_menu_item, isCircularShape, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mDirection, animateItems);
             }
             mMenuView.setAdapter(menuAdapter);
 
@@ -274,6 +290,43 @@ public class FABRevealMenu extends FrameLayout {
     }
 
     // --- action methods --- //
+
+    public FABMenuItem getItemByIndex(int index) {
+        if (menuAdapter != null) {
+            return menuAdapter.getItemByIndex(index);
+        }
+        return null;
+    }
+
+    public FABMenuItem getItemById(int id) {
+        if (menuAdapter != null) {
+            return menuAdapter.getItemById(id);
+        }
+        return null;
+    }
+
+    public boolean removeItem(int id) {
+        if (menuList != null) {
+            for (int i = 0; i < menuList.size(); i++) {
+                if (menuList.get(i).getId() == id) {
+                    menuList.remove(i);
+                    ((DynamicGridLayoutManager)mMenuView.getLayoutManager()).updateTotalItems(menuList.size());
+                    if (menuAdapter != null) {
+                        menuAdapter.notifyItemRemoved(i);
+                        menuAdapter.notifyItemRangeChanged(i, menuList.size());
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void notifyItemChanged(int id) {
+        if (menuAdapter != null) {
+            menuAdapter.notifyItemChangedById(id);
+        }
+    }
 
     public void setOnFABMenuSelectedListener(OnFABMenuSelectedListener menuSelectedListener) {
         this.menuSelectedListener = menuSelectedListener;
@@ -371,7 +424,7 @@ public class FABRevealMenu extends FrameLayout {
 
     private void recreateView() {
         if (mMenuRes != -1)
-            setMenu(mMenuRes);
+            updateMenu();
         else if (mCustomView != null)
             setCustomView(mCustomView);
         else if (menuList != null)
@@ -438,6 +491,13 @@ public class FABRevealMenu extends FrameLayout {
         this.mTitleTextColor = mTitleTextColor;
         if (menuAdapter != null) {
             menuAdapter.setTitleTextColor(mTitleTextColor);
+        }
+    }
+
+    public void setMenuTitleDisabledTextColor(@ColorRes int mTitleDisabledTextColor) {
+        this.mTitleDisabledTextColor = mTitleDisabledTextColor;
+        if (menuAdapter != null) {
+            menuAdapter.setTitleDisabledTextColor(mTitleDisabledTextColor);
         }
     }
 

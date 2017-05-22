@@ -8,6 +8,7 @@ public class FABMenuItem {
     private String title;
     private Drawable iconDrawable;
     private Bitmap iconBitmap;
+    private boolean enabled = true;
 
     public FABMenuItem(String title, Drawable iconDrawable) {
         this.title = title;
@@ -51,6 +52,14 @@ public class FABMenuItem {
 
     public Bitmap getIconBitmap() {
         return iconBitmap;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
     }
 
 }
