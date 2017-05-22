@@ -1,5 +1,6 @@
 package com.hlab.fabrevealmenu.view;
 
+import android.content.res.ColorStateList;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
     private int rowLayoutResId = 0;
     private boolean showTitle = false;
     private int titleTextColor;
+    private int titleDisabledTextColor;
     private Direction direction;
     private boolean isCircularShape;
 
@@ -38,7 +40,7 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
     private int lastAnimatedPosition = -1;
     private int maxDuration;
 
-    public FABMenuAdapter(FABRevealMenu parent, List<FABMenuItem> mItems, int rowLayoutResId, boolean isCircularShape, int titleTextColor,
+    public FABMenuAdapter(FABRevealMenu parent, List<FABMenuItem> mItems, int rowLayoutResId, boolean isCircularShape, int titleTextColor, int titleDisabledTextColor,
                           boolean showTitle, Direction direction, boolean animateItems) {
         this.parent = parent;
         this.mItems = mItems;
@@ -46,6 +48,7 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
         this.isCircularShape = isCircularShape;
         this.showTitle = showTitle;
         this.titleTextColor = titleTextColor;
+        this.titleDisabledTextColor = titleDisabledTextColor;
         this.animateItems = animateItems;
         this.direction = direction;
     }
@@ -59,6 +62,8 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.setData(mItems.get(position));
+        holder.itemView.setEnabled(mItems.get(position).isEnabled());
+        holder.tvTitle.setEnabled(mItems.get(position).isEnabled());
         // Here you apply the animation when the view is bound
         runEnterAnimation(holder.itemView, position);
     }
@@ -66,6 +71,31 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
     @Override
     public int getItemCount() {
         return mItems.size();
+    }
+
+    public FABMenuItem getItemByIndex(int index) {
+        if (index >= 0 && index < mItems.size()) {
+            return mItems.get(index);
+        }
+        return null;
+    }
+
+    public FABMenuItem getItemById(int id) {
+        for (int i = 0; i < mItems.size(); i++) {
+            if (mItems.get(i).getId() == id) {
+                return mItems.get(i);
+            }
+        }
+        return null;
+    }
+
+    public void notifyItemChangedById(int id) {
+        for (int i = 0; i < mItems.size(); i++) {
+            if (mItems.get(i).getId() == id) {
+                notifyItemChanged(i);
+                return;
+            }
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -79,7 +109,8 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
             super(itemView);
             viewParent = (RelativeLayout) itemView.findViewById(R.id.view_parent);
             tvTitle = (TextView) itemView.findViewById(R.id.txt_title_menu_item);
-            tvTitle.setTextColor(titleTextColor);
+            tvTitle.setTextColor(new ColorStateList(new int[][] { new int[] { android.R.attr.state_enabled}, new int[] {-android.R.attr.state_enabled}}, new int[]{titleTextColor, titleDisabledTextColor}));
+            tvTitle.setVisibility(showTitle ? View.VISIBLE : View.GONE);
             imgIcon = (ImageView) itemView.findViewById(R.id.img_menu_item);
 
             viewParent.setBackgroundResource(isCircularShape ?
@@ -94,16 +125,15 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
             viewParent.setTag(item.getId());
             tvTitle.setText(item.getTitle());
             imgIcon.setImageDrawable(item.getIconDrawable());
-            if (showTitle)
-                tvTitle.setVisibility(View.VISIBLE);
-            else
-                tvTitle.setVisibility(View.GONE);
+
         }
 
         @Override
         public void onClick(View v) {
-            parent.closeMenu();
-            parent.menuSelectedListener.onMenuItemSelected(v);
+            if (item.isEnabled()) {
+                parent.closeMenu();
+                parent.menuSelectedListener.onMenuItemSelected(v, item.getId());
+            }
         }
     }
 
@@ -168,6 +198,10 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
 
     public void setTitleTextColor(int titleTextColor) {
         this.titleTextColor = titleTextColor;
+    }
+
+    public void setTitleDisabledTextColor(int titleDisabledTextColor) {
+        this.titleDisabledTextColor = titleDisabledTextColor;
     }
 
     public Direction getDirection() {

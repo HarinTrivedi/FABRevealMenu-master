@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/view_parent"
-    android:layout_width="@dimen/row_horizontal_size"
+    android:layout_width="@dimen/column_size"
     android:layout_height="wrap_content"
     android:clickable="true"
     android:gravity="center"

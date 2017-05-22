@@ -16,6 +16,7 @@
 
         <attr name="showTitle" format="boolean" />
         <attr name="menuTitleTextColor" format="color" />
+        <attr name="menuTitleDisabledTextColor" format="color" />
         <attr name="animateItems" format="boolean" />
     </declare-styleable>
 

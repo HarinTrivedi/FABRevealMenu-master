@@ -3,5 +3,5 @@ package com.hlab.fabrevealmenu.listeners;
 import android.view.View;
 
 public interface OnFABMenuSelectedListener {
-    void onMenuItemSelected(View view);
+    void onMenuItemSelected(View view, int id);
 }
