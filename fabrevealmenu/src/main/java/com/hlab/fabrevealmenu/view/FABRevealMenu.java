@@ -168,8 +168,12 @@ public class FABRevealMenu extends FrameLayout {
         mMenuRes = menuRes;
         removeAllViews();
         Menu menu = new MenuBuilder(getContext());
-        new MenuInflater(getContext()).inflate(menuRes, menu);
+        inflateMenu(menuRes, menu);
         setUpMenu(menu);
+    }
+
+    protected void inflateMenu(@MenuRes int menuRes, Menu menu) {
+        new MenuInflater(getContext()).inflate(menuRes, menu);
     }
 
     public void updateMenu() {
