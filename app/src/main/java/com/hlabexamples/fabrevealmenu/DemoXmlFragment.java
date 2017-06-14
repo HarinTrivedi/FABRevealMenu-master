@@ -98,8 +98,7 @@ public class DemoXmlFragment extends BaseFragment implements OnFABMenuSelectedLi
     }
 
     @Override
-    public void onMenuItemSelected(View view) {
-        int id = (int) view.getTag();
+    public void onMenuItemSelected(View view, int id) {
         if (id == R.id.menu_attachment) {
             Toast.makeText(getActivity(), "Attachment Selected", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.menu_image) {
