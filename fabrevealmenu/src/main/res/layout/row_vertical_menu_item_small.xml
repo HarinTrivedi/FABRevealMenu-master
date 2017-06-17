@@ -24,9 +24,9 @@
         android:layout_toEndOf="@+id/img_menu_item"
         android:layout_toRightOf="@+id/img_menu_item"
         android:paddingEnd="0dp"
-        android:paddingLeft="@dimen/menu_padding_horizontal"
+        android:paddingLeft="@dimen/menu_text_padding"
         android:paddingRight="0dp"
-        android:paddingStart="@dimen/menu_padding_horizontal"
+        android:paddingStart="@dimen/menu_text_padding"
         android:textColor="@android:color/black"
         android:textSize="@dimen/menu_text_size_small"
         android:visibility="gone" />
