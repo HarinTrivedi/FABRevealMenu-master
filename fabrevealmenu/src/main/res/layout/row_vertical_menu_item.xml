@@ -34,7 +34,7 @@
         android:paddingRight="0dp"
         android:paddingStart="@dimen/menu_padding_horizontal"
         android:textColor="@android:color/black"
-        android:textSize="18sp"
+        android:textSize="@dimen/menu_text_size"
         android:visibility="gone" />
 
 </RelativeLayout>
