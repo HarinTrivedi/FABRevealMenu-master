@@ -232,12 +232,17 @@ public class FABRevealMenu extends FrameLayout {
 
             //set layout manager
             if (mDirection == Direction.LEFT || mDirection == Direction.RIGHT) {
-                mMenuView.setLayoutManager(new DynamicGridLayoutManager(mContext, (int) mContext.getResources().getDimension(R.dimen.column_size), menuList.size()));
-                menuAdapter = new FABMenuAdapter(this, menuList, isMenuSmall() ? R.layout.row_horizontal_menu_item_small : R.layout.row_horizontal_menu_item, true, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mDirection, animateItems);
+                int minItemWidth = isMenuSmall() ? (int) mContext.getResources().getDimension(R.dimen.column_size_small) : (int) mContext.getResources().getDimension(R.dimen.column_size);
+                int rowLayoutResId = isMenuSmall() ? R.layout.row_horizontal_menu_item_small : R.layout.row_horizontal_menu_item;
+
+                mMenuView.setLayoutManager(new DynamicGridLayoutManager(mContext, minItemWidth, menuList.size()));
+                menuAdapter = new FABMenuAdapter(this, menuList, rowLayoutResId, true, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mDirection, animateItems);
             } else {
                 isCircularShape = !mShowTitle;
+                int rowLayoutResId = isMenuSmall() ? R.layout.row_vertical_menu_item_small : R.layout.row_vertical_menu_item;
+
                 mMenuView.setLayoutManager(new DynamicGridLayoutManager(mContext, 0, 0));
-                menuAdapter = new FABMenuAdapter(this, menuList, isMenuSmall() ? R.layout.row_vertical_menu_item_small : R.layout.row_vertical_menu_item, isCircularShape, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mDirection, animateItems);
+                menuAdapter = new FABMenuAdapter(this, menuList, rowLayoutResId, isCircularShape, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mDirection, animateItems);
             }
             mMenuView.setAdapter(menuAdapter);
 
