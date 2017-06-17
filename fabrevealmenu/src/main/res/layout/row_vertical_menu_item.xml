@@ -3,13 +3,7 @@
     android:id="@+id/view_parent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:paddingBottom="@dimen/menu_padding_horizontal"
-    android:paddingEnd="@dimen/menu_padding_vertical"
-    android:paddingLeft="@dimen/menu_padding_horizontal"
-    android:paddingRight="@dimen/menu_padding_vertical"
-    android:paddingStart="@dimen/menu_padding_horizontal"
-    android:paddingTop="@dimen/menu_padding_horizontal">
+    android:clickable="true">
 
     <ImageView
         android:id="@+id/img_menu_item"

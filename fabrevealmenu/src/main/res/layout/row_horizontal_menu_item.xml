@@ -5,13 +5,7 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:gravity="center"
-    android:minHeight="@dimen/row_horizontal_size"
-    android:paddingBottom="@dimen/menu_padding_vertical"
-    android:paddingEnd="@dimen/menu_padding_horizontal"
-    android:paddingLeft="@dimen/menu_padding_horizontal"
-    android:paddingRight="@dimen/menu_padding_horizontal"
-    android:paddingStart="@dimen/menu_padding_horizontal"
-    android:paddingTop="@dimen/menu_padding_vertical">
+    android:minHeight="@dimen/row_horizontal_size">
 
     <ImageView
         android:id="@+id/img_menu_item"

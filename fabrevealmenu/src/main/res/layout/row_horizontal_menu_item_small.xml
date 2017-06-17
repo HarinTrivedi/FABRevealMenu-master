@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/view_parent"
-    android:layout_width="@dimen/column_size"
+    android:layout_width="@dimen/column_size_small"
     android:layout_height="wrap_content"
     android:clickable="true"
     android:gravity="center"
-    android:minHeight="@dimen/row_horizontal_size_small"
-    android:paddingBottom="@dimen/menu_padding_vertical"
-    android:paddingEnd="@dimen/menu_padding_horizontal"
-    android:paddingLeft="@dimen/menu_padding_horizontal"
-    android:paddingRight="@dimen/menu_padding_horizontal"
-    android:paddingStart="@dimen/menu_padding_horizontal"
-    android:paddingTop="@dimen/menu_padding_vertical">
+    android:minHeight="@dimen/row_horizontal_size_small">
 
     <ImageView
         android:id="@+id/img_menu_item"
@@ -31,7 +25,7 @@
         android:gravity="center"
         android:maxLines="1"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/menu_text_size_horizontal"
+        android:textSize="@dimen/menu_text_size_horizontal_small"
         android:visibility="gone" />
 
 </RelativeLayout>
