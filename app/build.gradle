@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "25.0.3"
 
     defaultConfig {
         applicationId "com.hlabexamples.fabrevealmenu"
@@ -21,9 +21,8 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:25.4.0'
-    compile 'com.android.support:design:25.4.0'
-    compile 'com.android.support:support-v4:25.4.0'
+    compile 'com.android.support:appcompat-v7:26.0.1'
+    compile 'com.android.support:design:26.0.1'
+    compile 'com.android.support:support-v4:26.0.1'
     compile project(':fabrevealmenu')
-//    compile 'com.hlab.fabrevealmenu:fab-reveal-menu:1.0.1'
 }
