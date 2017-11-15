@@ -111,18 +111,17 @@ public class DemoCodeFragment extends BaseFragment implements OnFABMenuSelectedL
         fabMenu.setMenuBackground(R.color.colorWhite);
     }
 
-    @Override
-    public void onMenuItemSelected(View view) {
-        int position = (int) view.getTag();
-        if (position >= 0 && items != null && items.size() > position) {
-            Toast.makeText(getActivity(), items.get(position).getTitle() + "Clicked", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     private void initItems(boolean toShowDoubleItems) {
         items = new ArrayList<>();
         for (int i = 0; i < (toShowDoubleItems ? 10 : 5); i++) {
             items.add(new FABMenuItem("Item " + i, BitmapFactory.decodeResource(getResources(), R.drawable.ic_done)));
+        }
+    }
+
+    @Override
+    public void onMenuItemSelected(View view, int id) {
+        if (id >= 0 && items != null && items.size() > id) {
+            Toast.makeText(getActivity(), items.get(id).getTitle() + "Clicked", Toast.LENGTH_SHORT).show();
         }
     }
 }

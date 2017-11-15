@@ -18,6 +18,10 @@
         <attr name="menuTitleTextColor" format="color" />
         <attr name="menuTitleDisabledTextColor" format="color" />
         <attr name="animateItems" format="boolean" />
+        <attr name="menuSize" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="small" value="1" />
+        </attr>
     </declare-styleable>
 
 </resources>

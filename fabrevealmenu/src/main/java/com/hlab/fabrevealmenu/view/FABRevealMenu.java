@@ -46,6 +46,7 @@ public class FABRevealMenu extends FrameLayout {
     private int mMenuBackground;
     private int mOverlayBackground;
     private boolean mShowOverlay;
+    private int mMenuSize;
 
     private Direction mDirection;
     @BoolRes
@@ -57,6 +58,8 @@ public class FABRevealMenu extends FrameLayout {
     //Common constants
     private final int FAB_STATE_COLLAPSED = 0;
     private final int FAB_STATE_EXPANDED = 1;
+    private final int FAB_MENU_SIZE_NORMAL = 0;
+    private final int FAB_MENU_SIZE_SMALL = 1;
     private int FAB_CURRENT_STATE = FAB_STATE_COLLAPSED;
 
 
@@ -126,6 +129,9 @@ public class FABRevealMenu extends FrameLayout {
             mTitleDisabledTextColor = a.getColor(R.styleable.FABRevealMenu_menuTitleDisabledTextColor, getColor(android.R.color.darker_gray));
             mShowTitle = a.getBoolean(R.styleable.FABRevealMenu_showTitle, true);
             mShowOverlay = a.getBoolean(R.styleable.FABRevealMenu_showOverlay, true);
+
+            //size
+            mMenuSize = a.getInt(R.styleable.FABRevealMenu_menuSize, 0);
 
             //animation
             animateItems = a.getBoolean(R.styleable.FABRevealMenu_animateItems, true);
@@ -223,14 +229,20 @@ public class FABRevealMenu extends FrameLayout {
             mMenuView = viewHelper.generateMenuView(mEnableNestedScrolling);
 
             boolean isCircularShape = false;
+
             //set layout manager
             if (mDirection == Direction.LEFT || mDirection == Direction.RIGHT) {
-                mMenuView.setLayoutManager(new DynamicGridLayoutManager(mContext, (int) mContext.getResources().getDimension(R.dimen.column_size), menuList.size()));
-                menuAdapter = new FABMenuAdapter(this, menuList, R.layout.row_horizontal_menu_item, true, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mDirection, animateItems);
+                int minItemWidth = isMenuSmall() ? (int) mContext.getResources().getDimension(R.dimen.column_size_small) : (int) mContext.getResources().getDimension(R.dimen.column_size);
+                int rowLayoutResId = isMenuSmall() ? R.layout.row_horizontal_menu_item_small : R.layout.row_horizontal_menu_item;
+
+                mMenuView.setLayoutManager(new DynamicGridLayoutManager(mContext, minItemWidth, menuList.size()));
+                menuAdapter = new FABMenuAdapter(this, menuList, rowLayoutResId, true, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mDirection, animateItems);
             } else {
                 isCircularShape = !mShowTitle;
+                int rowLayoutResId = isMenuSmall() ? R.layout.row_vertical_menu_item_small : R.layout.row_vertical_menu_item;
+
                 mMenuView.setLayoutManager(new DynamicGridLayoutManager(mContext, 0, 0));
-                menuAdapter = new FABMenuAdapter(this, menuList, R.layout.row_vertical_menu_item, isCircularShape, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mDirection, animateItems);
+                menuAdapter = new FABMenuAdapter(this, menuList, rowLayoutResId, isCircularShape, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mDirection, animateItems);
             }
             mMenuView.setAdapter(menuAdapter);
 
@@ -250,7 +262,7 @@ public class FABRevealMenu extends FrameLayout {
 
 
         if (toSetMinWidth)
-            mBaseView.setMinimumWidth(getResources().getDimensionPixelSize(R.dimen.menu_min_width));
+            mBaseView.setMinimumWidth(getResources().getDimensionPixelSize(isMenuSmall() ? R.dimen.menu_min_width_small : R.dimen.menu_min_width));
         //1.add menu view
         mBaseView.addView(mView);
         //2.add base view
@@ -477,6 +489,10 @@ public class FABRevealMenu extends FrameLayout {
             }
         }, CONST_DELAY);
 
+    }
+
+    private boolean isMenuSmall() {
+        return mMenuSize == FAB_MENU_SIZE_SMALL;
     }
 
     public void setTitleVisible(boolean mShowTitle) {
