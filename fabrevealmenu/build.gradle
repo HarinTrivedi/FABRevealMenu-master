@@ -2,13 +2,13 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "25.0.3"
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 24
-        versionCode 1
-        versionName "1.0.2"
+        minSdkVersion 16
+        targetSdkVersion 26
+        versionCode 3
+        versionName "1.0.3"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -16,24 +16,28 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:26.0.1'
-    compile 'com.android.support:cardview-v7:26.0.1'
-    compile 'com.android.support:recyclerview-v7:26.0.1'
-    compile 'com.nineoldandroids:library:2.4.0'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:cardview-v7:26.1.0'
+    compile 'com.android.support:recyclerview-v7:26.1.0'
+    //External libs
     compile 'com.github.asyl.animation:arcanimator:1.0.0'
     compile('com.github.ozodrukh:CircularReveal:1.3.1@aar') {
-        transitive = true;
+        transitive = true
     }
 }
 
 ext {
     PUBLISH_GROUP_ID = 'com.hlab.fabrevealmenu'
     PUBLISH_ARTIFACT_ID = 'fab-reveal-menu'
-    PUBLISH_VERSION = '1.0.2'
+    PUBLISH_VERSION = '1.0.3'
 }
 
 

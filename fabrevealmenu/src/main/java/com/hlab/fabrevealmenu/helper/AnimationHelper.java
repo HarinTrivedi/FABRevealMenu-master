@@ -19,10 +19,10 @@ import io.codetail.animation.arcanimator.Side;
 
 public class AnimationHelper {
 
-    private final int FAB_ARC_DEGREES = -30;
     // Animation durations
     public static final int REVEAL_DURATION = 600;
     public static final int FAB_ANIM_DURATION = (int) (REVEAL_DURATION / 2.4);
+    private final int FAB_ARC_DEGREES = -30;
     private final float FAB_SCALE_FACTOR = 0.2f;
     private final int OVERLAY_ANIM_DURATION = REVEAL_DURATION / 2;
 

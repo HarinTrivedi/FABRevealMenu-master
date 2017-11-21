@@ -54,7 +54,6 @@ artifacts {
     archives androidJavadocsJar
 }
 
-
 //ext {
 //    PUBLISH_GROUP_ID = 'com.hlab.fabrevealmenu'
 //    PUBLISH_ARTIFACT_ID = 'fab-reveal-menu'

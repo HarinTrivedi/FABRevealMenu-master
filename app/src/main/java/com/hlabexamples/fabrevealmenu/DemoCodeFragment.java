@@ -1,16 +1,16 @@
 package com.hlabexamples.fabrevealmenu;
 
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.content.res.AppCompatResources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class DemoCodeFragment extends BaseFragment implements OnFABMenuSelectedListener {
 
     private ArrayList<FABMenuItem> items;
-    private String[] mDirectionStrings = {"Direction - LEFT", "Direction - UP"};
+    private String[] mDirectionStrings = {"LEFT", "UP"};
     private Direction currentDirection = Direction.LEFT;
 
     @Override
@@ -39,50 +39,60 @@ public class DemoCodeFragment extends BaseFragment implements OnFABMenuSelectedL
 
         initItems(false);
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        final FABRevealMenu fabMenu = (FABRevealMenu) view.findViewById(R.id.fabMenu);
+        FloatingActionButton fab = view.findViewById(R.id.fab);
+        final FABRevealMenu fabMenu = view.findViewById(R.id.fabMenu);
 
         try {
             if (fab != null && fabMenu != null) {
+                //attach menu to fab
                 setFabMenu(fabMenu);
-                fabMenu.bindAncherView(fab);
+                fabMenu.bindAnchorView(fab);
+                //set menu items from arrylist
                 fabMenu.setMenuItems(items);
+                //set menu item selection
                 fabMenu.setOnFABMenuSelectedListener(this);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        CheckBox cbTitle = (CheckBox) view.findViewById(R.id.chTitle);
-        cbTitle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (fabMenu != null) {
-                    fabMenu.setTitleVisible(b);
-                }
+        CheckBox cbTitle = view.findViewById(R.id.chTitle);
+        cbTitle.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (fabMenu != null) {
+                fabMenu.setTitleVisible(b);
             }
         });
-        CheckBox cbShowOverlay = (CheckBox) view.findViewById(R.id.chOverlay);
-        cbShowOverlay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (fabMenu != null) {
-                    fabMenu.setShowOverlay(b);
-                }
+        CheckBox cbShowOverlay = view.findViewById(R.id.chOverlay);
+        cbShowOverlay.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (fabMenu != null) {
+                fabMenu.setShowOverlay(b);
             }
         });
-        CheckBox cbDouble = (CheckBox) view.findViewById(R.id.chDouble);
-        cbDouble.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (fabMenu != null) {
-                    initItems(b);
-                    fabMenu.setMenuItems(items);
-                }
+        CheckBox cbDouble = view.findViewById(R.id.chDouble);
+        cbDouble.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (fabMenu != null) {
+                initItems(b);
+                fabMenu.setMenuItems(items);
+            }
+        });
+        CheckBox cbFont = view.findViewById(R.id.chFont);
+        cbFont.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (fabMenu != null) {
+                //set custom font typeface
+                fabMenu.setMenuTitleTypeface(ResourcesCompat.getFont(getActivity(), R.font.quicksand));
+            }
+        });
+        CheckBox chSmall = view.findViewById(R.id.chSmall);
+        chSmall.setOnCheckedChangeListener((compoundButton, isSmaller) -> {
+            if (fabMenu != null) {
+                if (isSmaller)
+                    fabMenu.setSmallerMenu();
+                else
+                    fabMenu.setNormalMenu();
             }
         });
 
-        Spinner spDirections = (Spinner) view.findViewById(R.id.spDirection);
+        Spinner spDirections = view.findViewById(R.id.spDirection);
         spDirections.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, mDirectionStrings));
         spDirections.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -113,8 +123,15 @@ public class DemoCodeFragment extends BaseFragment implements OnFABMenuSelectedL
 
     private void initItems(boolean toShowDoubleItems) {
         items = new ArrayList<>();
-        for (int i = 0; i < (toShowDoubleItems ? 10 : 5); i++) {
-            items.add(new FABMenuItem("Item " + i, BitmapFactory.decodeResource(getResources(), R.drawable.ic_done)));
+        items.add(new FABMenuItem("Attachments", AppCompatResources.getDrawable(getActivity(), R.drawable.ic_attachment)));
+        items.add(new FABMenuItem("Images", AppCompatResources.getDrawable(getActivity(), R.drawable.ic_image)));
+        items.add(new FABMenuItem("Places", AppCompatResources.getDrawable(getActivity(), R.drawable.ic_place)));
+        items.add(new FABMenuItem("Emoticons", AppCompatResources.getDrawable(getActivity(), R.drawable.ic_emoticon)));
+        if (toShowDoubleItems) {
+            items.add(new FABMenuItem("Attachments", AppCompatResources.getDrawable(getActivity(), R.drawable.ic_attachment)));
+            items.add(new FABMenuItem("Images", AppCompatResources.getDrawable(getActivity(), R.drawable.ic_image)));
+            items.add(new FABMenuItem("Places", AppCompatResources.getDrawable(getActivity(), R.drawable.ic_place)));
+            items.add(new FABMenuItem("Emoticons", AppCompatResources.getDrawable(getActivity(), R.drawable.ic_emoticon)));
         }
     }
 

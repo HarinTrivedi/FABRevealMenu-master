@@ -1,12 +1,13 @@
 package com.hlab.fabrevealmenu.view;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Handler;
-import android.support.annotation.BoolRes;
 import android.support.annotation.ColorRes;
 import android.support.annotation.MenuRes;
 import android.support.annotation.NonNull;
@@ -36,10 +37,16 @@ import io.codetail.widget.RevealLinearLayout;
 
 public class FABRevealMenu extends FrameLayout {
 
+    //Common constants
+    private final int FAB_STATE_COLLAPSED = 0;
+    private final int FAB_STATE_EXPANDED = 1;
+    private final int FAB_MENU_SIZE_NORMAL = 0;
+    private final int FAB_MENU_SIZE_SMALL = 1;
+
+    public OnFABMenuSelectedListener menuSelectedListener = null;
     private Context mContext;
     private View mCustomView;
     private View mFab;
-
     //attributes
     @MenuRes
     private int mMenuRes;
@@ -47,21 +54,13 @@ public class FABRevealMenu extends FrameLayout {
     private int mOverlayBackground;
     private boolean mShowOverlay;
     private int mMenuSize;
-
     private Direction mDirection;
-    @BoolRes
     private boolean mShowTitle;
     private int mTitleTextColor;
     private int mTitleDisabledTextColor;
-
     private boolean animateItems;
-    //Common constants
-    private final int FAB_STATE_COLLAPSED = 0;
-    private final int FAB_STATE_EXPANDED = 1;
-    private final int FAB_MENU_SIZE_NORMAL = 0;
-    private final int FAB_MENU_SIZE_SMALL = 1;
     private int FAB_CURRENT_STATE = FAB_STATE_COLLAPSED;
-
+    private Typeface mMenuTitleTypeface;
 
     //Views in the menu
     private FrameLayout mOverlayLayout = null;
@@ -70,18 +69,12 @@ public class FABRevealMenu extends FrameLayout {
     private boolean mEnableNestedScrolling = true;
     private CardView mBaseView = null;
     private FABMenuAdapter menuAdapter = null;
-
     //Menu specific fields
     private ArrayList<FABMenuItem> menuList = null;
-    public OnFABMenuSelectedListener menuSelectedListener = null;
-
     //Helper class
     private ViewHelper viewHelper;
     private AnimationHelper animationHelper;
-
     private OnMenuStateChangedListener menuStateChangedListener;
-
-    private final int CONST_DELAY = 700;
 
     public FABRevealMenu(Context context) {
         super(context);
@@ -131,7 +124,7 @@ public class FABRevealMenu extends FrameLayout {
             mShowOverlay = a.getBoolean(R.styleable.FABRevealMenu_showOverlay, true);
 
             //size
-            mMenuSize = a.getInt(R.styleable.FABRevealMenu_menuSize, 0);
+            mMenuSize = a.getInt(R.styleable.FABRevealMenu_menuSize, FAB_MENU_SIZE_NORMAL);
 
             //animation
             animateItems = a.getBoolean(R.styleable.FABRevealMenu_animateItems, true);
@@ -151,6 +144,11 @@ public class FABRevealMenu extends FrameLayout {
         return mCustomView;
     }
 
+    /**
+     * Set custom view as menu
+     *
+     * @param view custom view
+     */
     public void setCustomView(@NonNull View view) {
         mMenuRes = -1;
         removeAllViews();
@@ -160,19 +158,24 @@ public class FABRevealMenu extends FrameLayout {
         setUpView(mCustomView, false);
     }
 
-
     public void setOnMenuStateChangedListener(OnMenuStateChangedListener menuStateChangedListener) {
         this.menuStateChangedListener = menuStateChangedListener;
     }
-  
+
     public void setNestedScrollingEnabled(boolean enabled) {
         mEnableNestedScrolling = enabled;
     }
 
+    /**
+     * Set menu from menu xml
+     *
+     * @param menuRes menu xml resource
+     */
     public void setMenu(@MenuRes int menuRes) {
         mCustomView = null;
         mMenuRes = menuRes;
         removeAllViews();
+        @SuppressLint("RestrictedApi")
         Menu menu = new MenuBuilder(getContext());
         new MenuInflater(getContext()).inflate(menuRes, menu);
         setUpMenu(menu);
@@ -187,6 +190,11 @@ public class FABRevealMenu extends FrameLayout {
             setMenu(mMenuRes);
     }
 
+    /**
+     * Set menu from list of items
+     *
+     * @param menuList list of items
+     */
     public void setMenuItems(ArrayList<FABMenuItem> menuList) throws NullPointerException {
         this.menuList = menuList;
 
@@ -237,12 +245,18 @@ public class FABRevealMenu extends FrameLayout {
 
                 mMenuView.setLayoutManager(new DynamicGridLayoutManager(mContext, minItemWidth, menuList.size()));
                 menuAdapter = new FABMenuAdapter(this, menuList, rowLayoutResId, true, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mDirection, animateItems);
+                if (mMenuTitleTypeface != null)
+                    menuAdapter.setMenuTitleTypeface(mMenuTitleTypeface);
+
             } else {
                 isCircularShape = !mShowTitle;
                 int rowLayoutResId = isMenuSmall() ? R.layout.row_vertical_menu_item_small : R.layout.row_vertical_menu_item;
 
                 mMenuView.setLayoutManager(new DynamicGridLayoutManager(mContext, 0, 0));
                 menuAdapter = new FABMenuAdapter(this, menuList, rowLayoutResId, isCircularShape, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mDirection, animateItems);
+                if (mMenuTitleTypeface != null)
+                    menuAdapter.setMenuTitleTypeface(mMenuTitleTypeface);
+
             }
             mMenuView.setAdapter(menuAdapter);
 
@@ -254,9 +268,9 @@ public class FABRevealMenu extends FrameLayout {
         mBaseView = viewHelper.generateBaseView();
         mRevealView = viewHelper.generateRevealView();
         mOverlayLayout = null;
+        mOverlayLayout = viewHelper.generateOverlayView();
         if (mShowOverlay) {
-            mOverlayLayout = viewHelper.generateOverlayView();
-            mOverlayLayout.setBackgroundColor(mOverlayBackground);
+            mOverlayLayout.setBackgroundColor(mShowOverlay ? mOverlayBackground : getColor(android.R.color.transparent));
         }
         mBaseView.setCardBackgroundColor(mMenuBackground);
 
@@ -274,38 +288,27 @@ public class FABRevealMenu extends FrameLayout {
         //4.add reveal view
         addView(mRevealView);
 
-        mRevealView.post(new Runnable() {
-            @Override
-            public void run() {
-                //set reveal center points after views are added
-                animationHelper.calculateCenterPoints(mBaseView, mDirection);
-            }
+        mRevealView.post(() -> {
+            //set reveal center points after views are added
+            animationHelper.calculateCenterPoints(mBaseView, mDirection);
         });
         if (mOverlayLayout != null) {
-            mOverlayLayout.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    closeMenu();
-                }
-            });
+            mOverlayLayout.setOnClickListener(v -> closeMenu());
         }
 
     }
 
-    public void bindAncherView(@NonNull View fab) {
+    /**
+     * Attach fab to menu
+     *
+     * @param fab fab view
+     */
+    public void bindAnchorView(@NonNull View fab) {
         mFab = fab;
-        mFab.post(new Runnable() {
-            @Override
-            public void run() {
-                mFab.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showMenu();
-                    }
-                });
-                animationHelper.calculateCenterPoints(mBaseView, mDirection);
-                viewHelper.alignMenuWithFab(mFab, mRevealView, mDirection);
-            }
+        mFab.post(() -> {
+            mFab.setOnClickListener(v -> showMenu());
+            animationHelper.calculateCenterPoints(mBaseView, mDirection);
+            viewHelper.alignMenuWithFab(mFab, mRevealView, mDirection);
         });
     }
 
@@ -325,12 +328,15 @@ public class FABRevealMenu extends FrameLayout {
         return null;
     }
 
+    /**
+     * Remove menu item by id
+     */
     public boolean removeItem(int id) {
         if (menuList != null) {
             for (int i = 0; i < menuList.size(); i++) {
                 if (menuList.get(i).getId() == id) {
                     menuList.remove(i);
-                    ((DynamicGridLayoutManager)mMenuView.getLayoutManager()).updateTotalItems(menuList.size());
+                    ((DynamicGridLayoutManager) mMenuView.getLayoutManager()).updateTotalItems(menuList.size());
                     if (menuAdapter != null) {
                         menuAdapter.notifyItemRemoved(i);
                         menuAdapter.notifyItemRangeChanged(i, menuList.size());
@@ -356,11 +362,14 @@ public class FABRevealMenu extends FrameLayout {
         return (FAB_CURRENT_STATE == FAB_STATE_EXPANDED);
     }
 
+    /**
+     * Show the menu
+     */
     public void showMenu() {
 
         if (mFab == null) {
             throw new IllegalStateException("FloatingActionButton not bound." +
-                    "Please, use bindAncherView() to add your Fab button.");
+                    "Please, use bindAnchorView() to add your Fab button.");
         }
 
         animationHelper.calculateCenterPoints(mBaseView, mDirection);
@@ -378,33 +387,33 @@ public class FABRevealMenu extends FrameLayout {
             });
 
             // Show sheet after a delay
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    int finalRadius = Math.max(mBaseView.getWidth(), mBaseView.getHeight());
-                    animationHelper.revealMenu(mBaseView, mFab.getWidth() / 2, finalRadius, false, new AnimationListener() {
-                        @Override
-                        public void onStart() {
-                            mRevealView.setVisibility(View.VISIBLE);
-                            if (menuAdapter != null) {
-                                menuAdapter.resetAdapter(false);
-                            }
-
-                            if (mOverlayLayout != null) {
-                                animationHelper.showOverlay(mOverlayLayout);
-                            }
+            new Handler().postDelayed(() -> {
+                int finalRadius = Math.max(mBaseView.getWidth(), mBaseView.getHeight());
+                animationHelper.revealMenu(mBaseView, mFab.getWidth() / 2, finalRadius, false, new AnimationListener() {
+                    @Override
+                    public void onStart() {
+                        mRevealView.setVisibility(View.VISIBLE);
+                        if (menuAdapter != null) {
+                            menuAdapter.resetAdapter(false);
                         }
-                    });
-                }
+
+                        if (mOverlayLayout != null) {
+                            animationHelper.showOverlay(mOverlayLayout);
+                        }
+                    }
+                });
             }, AnimationHelper.FAB_ANIM_DURATION - 50);
         }
 
     }
 
+    /**
+     * Close the menu
+     */
     public void closeMenu() throws IllegalStateException {
         if (mFab == null) {
             throw new IllegalStateException("FloatingActionButton not bound." +
-                    "Please, use bindAncherView() to add your Fab button.");
+                    "Please, use bindAnchorView() to add your Fab button.");
         }
 
         if (FAB_CURRENT_STATE == FAB_STATE_EXPANDED) {
@@ -430,17 +439,12 @@ public class FABRevealMenu extends FrameLayout {
             });
 
             // Show FAB after a delay
-            new Handler().postDelayed(new Runnable() {
+            new Handler().postDelayed(() -> animationHelper.moveFab(mFab, mRevealView, mDirection, true, new AnimationListener() {
                 @Override
-                public void run() {
-                    animationHelper.moveFab(mFab, mRevealView, mDirection, true, new AnimationListener() {
-                        @Override
-                        public void onStart() {
-                            mFab.setVisibility(View.VISIBLE);
-                        }
-                    });
+                public void onStart() {
+                    mFab.setVisibility(View.VISIBLE);
                 }
-            }, AnimationHelper.REVEAL_DURATION - 50);
+            }), AnimationHelper.REVEAL_DURATION - 50);
         }
     }
 
@@ -482,17 +486,27 @@ public class FABRevealMenu extends FrameLayout {
     public void setShowOverlay(boolean mShowOverlay) {
         this.mShowOverlay = mShowOverlay;
         closeMenu();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                recreateView();
-            }
-        }, CONST_DELAY);
-
+        new Handler().post(this::recreateView);
     }
 
     private boolean isMenuSmall() {
         return mMenuSize == FAB_MENU_SIZE_SMALL;
+    }
+
+    /**
+     * Set small size for menu item
+     */
+    public void setSmallerMenu() {
+        mMenuSize = FAB_MENU_SIZE_SMALL;
+        new Handler().post(this::recreateView);
+    }
+
+    /**
+     * Set normal size for menu item
+     */
+    public void setNormalMenu() {
+        mMenuSize = FAB_MENU_SIZE_NORMAL;
+        new Handler().post(this::recreateView);
     }
 
     public void setTitleVisible(boolean mShowTitle) {
@@ -504,12 +518,7 @@ public class FABRevealMenu extends FrameLayout {
                 mBaseView.setMinimumWidth(LayoutParams.WRAP_CONTENT);
             menuAdapter.setShowTitle(mShowTitle);
             closeMenu();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    recreateView();
-                }
-            }, CONST_DELAY);
+            new Handler().post(this::recreateView);
         }
     }
 
@@ -517,6 +526,7 @@ public class FABRevealMenu extends FrameLayout {
         this.mTitleTextColor = mTitleTextColor;
         if (menuAdapter != null) {
             menuAdapter.setTitleTextColor(mTitleTextColor);
+            menuAdapter.notifyDataSetChanged();
         }
     }
 
@@ -524,6 +534,7 @@ public class FABRevealMenu extends FrameLayout {
         this.mTitleDisabledTextColor = mTitleDisabledTextColor;
         if (menuAdapter != null) {
             menuAdapter.setTitleDisabledTextColor(mTitleDisabledTextColor);
+            menuAdapter.notifyDataSetChanged();
         }
     }
 
@@ -535,12 +546,14 @@ public class FABRevealMenu extends FrameLayout {
         this.mDirection = mDirection;
         if (menuAdapter != null) {
             menuAdapter.setDirection(mDirection);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    recreateView();
-                }
-            }, CONST_DELAY);
+            new Handler().post(this::recreateView);
+        }
+    }
+
+    public void setMenuTitleTypeface(Typeface mMenuTitleTypeface) {
+        if (mMenuTitleTypeface != null) {
+            this.mMenuTitleTypeface = mMenuTitleTypeface;
+            new Handler().post(this::recreateView);
         }
     }
 }

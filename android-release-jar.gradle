@@ -13,7 +13,7 @@ android.libraryVariants.all { variant ->
         def task = project.tasks.create "jar${name.capitalize()}", Jar
         task.dependsOn variant.javaCompile
         task.from variant.javaCompile.destinationDir
-        artifacts.add('archives', task);
+        artifacts.add('archives', task)
     }
 }
 
@@ -38,7 +38,7 @@ uploadArchives {
         pom.groupId = groupId
         pom.artifactId = artifactId
         pom.version = version
-        
+
         // Add other pom properties here if you want (developer details / licenses)
         repository(url: "file://${localReleaseDest}")
     }

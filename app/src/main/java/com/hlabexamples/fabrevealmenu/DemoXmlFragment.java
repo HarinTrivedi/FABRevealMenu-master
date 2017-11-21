@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -18,7 +20,7 @@ import com.hlab.fabrevealmenu.view.FABRevealMenu;
 
 public class DemoXmlFragment extends BaseFragment implements OnFABMenuSelectedListener {
 
-    private String[] mDirectionStrings = {"Direction - LEFT", "Direction - UP"};
+    private String[] mDirectionStrings = {"LEFT", "UP"};
     private Direction currentDirection = Direction.LEFT;
 
     @Override
@@ -31,48 +33,41 @@ public class DemoXmlFragment extends BaseFragment implements OnFABMenuSelectedLi
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        final FABRevealMenu fabMenu = (FABRevealMenu) view.findViewById(R.id.fabMenu);
+        final FloatingActionButton fab = view.findViewById(R.id.fab);
+        final FABRevealMenu fabMenu = view.findViewById(R.id.fabMenu);
 
         try {
             if (fab != null && fabMenu != null) {
                 setFabMenu(fabMenu);
-                fabMenu.bindAncherView(fab);
+                //attach menu to fab
+                fabMenu.bindAnchorView(fab);
+                //set menu selection listener
                 fabMenu.setOnFABMenuSelectedListener(this);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        view.findViewById(R.id.textView).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), ScrollingActivity.class);
-                startActivity(i);
+        CheckBox cbFont = view.findViewById(R.id.chFont);
+        cbFont.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (fabMenu != null) {
+                fabMenu.setMenuTitleTypeface(ResourcesCompat.getFont(getActivity(), R.font.quicksand));
             }
         });
+        CheckBox chSmall = view.findViewById(R.id.chSmall);
+        chSmall.setOnCheckedChangeListener((compoundButton, isSmaller) -> {
+            if (fabMenu != null) {
+                if (isSmaller)
+                    fabMenu.setSmallerMenu();
+                else
+                    fabMenu.setNormalMenu();
+            }
+        });
+        view.findViewById(R.id.textView).setOnClickListener(view1 -> {
+            Intent i = new Intent(getActivity(), ScrollingActivity.class);
+            startActivity(i);
+        });
 
-//        CheckBox cbTitle = (CheckBox) view.findViewById(R.id.chTitle);
-//        cbTitle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//                if (fabMenu != null) {
-//                    fabMenu.setTitleVisible(b);
-//                }
-//            }
-//        });
-//
-//        CheckBox cbShowOverlay = (CheckBox) view.findViewById(R.id.chOverlay);
-//        cbShowOverlay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//                if (fabMenu != null) {
-//                    fabMenu.setShowOverlay(b);
-//                }
-//            }
-//        });
-
-        Spinner spDirections = (Spinner) view.findViewById(R.id.spDirection);
+        Spinner spDirections = view.findViewById(R.id.spDirection);
         spDirections.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, mDirectionStrings));
         spDirections.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

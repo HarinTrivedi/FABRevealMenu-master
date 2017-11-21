@@ -8,7 +8,7 @@ public class DynamicGridLayoutManager extends GridLayoutManager {
     private int minItemWidth;
     private int totalItems;
 
-    public DynamicGridLayoutManager(Context context, int minItemWidth, int totalItems) {
+    DynamicGridLayoutManager(Context context, int minItemWidth, int totalItems) {
         super(context, 1);
         this.minItemWidth = minItemWidth;
         this.totalItems = totalItems;
@@ -21,7 +21,7 @@ public class DynamicGridLayoutManager extends GridLayoutManager {
         super.onLayoutChildren(recycler, state);
     }
 
-    public void updateTotalItems(int totalItems) {
+    void updateTotalItems(int totalItems) {
         this.totalItems = totalItems;
     }
 

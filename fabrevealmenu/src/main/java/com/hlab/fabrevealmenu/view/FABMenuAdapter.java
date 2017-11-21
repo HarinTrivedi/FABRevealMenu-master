@@ -1,6 +1,7 @@
 package com.hlab.fabrevealmenu.view;
 
 import android.content.res.ColorStateList;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,9 +40,10 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
     private boolean animateItems = true;
     private int lastAnimatedPosition = -1;
     private int maxDuration;
+    private Typeface mMenuTitleTypeface;
 
-    public FABMenuAdapter(FABRevealMenu parent, List<FABMenuItem> mItems, int rowLayoutResId, boolean isCircularShape, int titleTextColor, int titleDisabledTextColor,
-                          boolean showTitle, Direction direction, boolean animateItems) {
+    FABMenuAdapter(FABRevealMenu parent, List<FABMenuItem> mItems, int rowLayoutResId, boolean isCircularShape, int titleTextColor, int titleDisabledTextColor,
+                   boolean showTitle, Direction direction, boolean animateItems) {
         this.parent = parent;
         this.mItems = mItems;
         this.rowLayoutResId = rowLayoutResId;
@@ -73,14 +75,14 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
         return mItems.size();
     }
 
-    public FABMenuItem getItemByIndex(int index) {
+    FABMenuItem getItemByIndex(int index) {
         if (index >= 0 && index < mItems.size()) {
             return mItems.get(index);
         }
         return null;
     }
 
-    public FABMenuItem getItemById(int id) {
+    FABMenuItem getItemById(int id) {
         for (int i = 0; i < mItems.size(); i++) {
             if (mItems.get(i).getId() == id) {
                 return mItems.get(i);
@@ -89,50 +91,11 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
         return null;
     }
 
-    public void notifyItemChangedById(int id) {
+    void notifyItemChangedById(int id) {
         for (int i = 0; i < mItems.size(); i++) {
             if (mItems.get(i).getId() == id) {
                 notifyItemChanged(i);
                 return;
-            }
-        }
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        public FABMenuItem item;
-        public TextView tvTitle;
-        public ImageView imgIcon;
-        public RelativeLayout viewParent;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            viewParent = (RelativeLayout) itemView.findViewById(R.id.view_parent);
-            tvTitle = (TextView) itemView.findViewById(R.id.txt_title_menu_item);
-            tvTitle.setTextColor(new ColorStateList(new int[][] { new int[] { android.R.attr.state_enabled}, new int[] {-android.R.attr.state_enabled}}, new int[]{titleTextColor, titleDisabledTextColor}));
-            tvTitle.setVisibility(showTitle ? View.VISIBLE : View.GONE);
-            imgIcon = (ImageView) itemView.findViewById(R.id.img_menu_item);
-
-            viewParent.setBackgroundResource(isCircularShape ?
-                    R.drawable.drawable_bg_selected_round : R.drawable.drawable_bg_selected);
-
-            viewParent.setOnClickListener(this);
-            viewParent.invalidate();
-        }
-
-        public void setData(FABMenuItem item) {
-            this.item = item;
-            viewParent.setTag(item.getId());
-            tvTitle.setText(item.getTitle());
-            imgIcon.setImageDrawable(item.getIconDrawable());
-
-        }
-
-        @Override
-        public void onClick(View v) {
-            if (item.isEnabled()) {
-                parent.closeMenu();
-                parent.menuSelectedListener.onMenuItemSelected(v, item.getId());
             }
         }
     }
@@ -151,7 +114,7 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
         }
     }
 
-    public void resetAdapter(boolean returning) {
+    void resetAdapter(boolean returning) {
         lastAnimatedPosition = -1;
         isReturning = returning;
         notifyDataSetChanged();
@@ -200,7 +163,7 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
         this.titleTextColor = titleTextColor;
     }
 
-    public void setTitleDisabledTextColor(int titleDisabledTextColor) {
+    void setTitleDisabledTextColor(int titleDisabledTextColor) {
         this.titleDisabledTextColor = titleDisabledTextColor;
     }
 
@@ -208,8 +171,54 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
         return direction;
     }
 
-    public void setDirection(Direction direction) {
+    void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    void setMenuTitleTypeface(Typeface mMenuTitleTypeface) {
+        this.mMenuTitleTypeface = mMenuTitleTypeface;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        FABMenuItem item;
+        TextView tvTitle;
+        ImageView imgIcon;
+        RelativeLayout viewParent;
+
+        ViewHolder(View itemView) {
+            super(itemView);
+            viewParent = itemView.findViewById(R.id.view_parent);
+            tvTitle = itemView.findViewById(R.id.txt_title_menu_item);
+            tvTitle.setTextColor(new ColorStateList(new int[][]{new int[]{android.R.attr.state_enabled}, new int[]{-android.R.attr.state_enabled}}, new int[]{titleTextColor, titleDisabledTextColor}));
+            tvTitle.setVisibility(showTitle ? View.VISIBLE : View.GONE);
+            imgIcon = itemView.findViewById(R.id.img_menu_item);
+
+            if (mMenuTitleTypeface != null)
+                tvTitle.setTypeface(mMenuTitleTypeface);
+
+            viewParent.setBackgroundResource(isCircularShape ?
+                    R.drawable.drawable_bg_selected_round : R.drawable.drawable_bg_selected);
+
+            viewParent.setOnClickListener(this);
+            viewParent.invalidate();
+        }
+
+        public void setData(FABMenuItem item) {
+            this.item = item;
+            viewParent.setTag(item.getId());
+            tvTitle.setText(item.getTitle());
+            imgIcon.setImageDrawable(item.getIconDrawable());
+
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (item.isEnabled()) {
+                parent.closeMenu();
+                parent.menuSelectedListener.onMenuItemSelected(v, item.getId());
+            }
+        }
     }
 
 }

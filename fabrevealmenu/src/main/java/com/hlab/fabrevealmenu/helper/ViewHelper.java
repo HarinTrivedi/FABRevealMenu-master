@@ -17,8 +17,8 @@ import io.codetail.widget.RevealLinearLayout;
 
 public class ViewHelper {
 
-    private Context mContext;
     private final int SHEET_REVEAL_OFFSET_Y = 5;
+    private Context mContext;
     private int const_val = 1;
 
     //common layout parameter
@@ -48,6 +48,8 @@ public class ViewHelper {
         mMenuView.setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
         mMenuView.setBackgroundColor(Color.TRANSPARENT);
         mMenuView.setLayoutParams(matchParams);
+        final int padding = dpToPx(mContext, 10);
+        mMenuView.setPadding(padding, padding, padding, padding);
         mMenuView.setNestedScrollingEnabled(enableNestedScrolling);
         return mMenuView;
     }
@@ -121,37 +123,9 @@ public class ViewHelper {
             mRevealView.setX(sheetX - rightDiff - sheetLayoutParams.rightMargin);
 
         }
-//        if (rightDiff != 0) {
-//            float sheetX = mRevealView.getX();
-//            // Align the right side of the sheet with the right side of the FAB if
-//            // doing so would not move the sheet off the screen
-//            if (rightDiff <= sheetX) {
-//                mRevealView.setX(sheetX - rightDiff - sheetLayoutParams.rightMargin);
-//                //revealXDirection = RevealXDirection.LEFT;
-//            }
-//            // Otherwise, align the left side of the sheet with the left side of the FAB
-//            else if (leftDiff != 0 && leftDiff <= sheetX) {
-//                mRevealView.setX(sheetX - leftDiff + sheetLayoutParams.leftMargin);
-//                //revealXDirection = RevealXDirection.RIGHT;
-//            }
-//        }
-//
-//        if (bottomDiff != 0) {
-//            float sheetY = mRevealView.getY();
-//            // Align the bottom of the sheet with the bottom of the FAB
-//            if (bottomDiff <= sheetY) {
-//                mRevealView.setY(sheetY - bottomDiff - sheetLayoutParams.bottomMargin);
-//                //revealYDirection = RevealYDirection.UP;
-//            }
-//            // Otherwise, align the top of the sheet with the top of the FAB
-//            else if (topDiff != 0 && topDiff <= sheetY) {
-//                mRevealView.setY(sheetY - topDiff + sheetLayoutParams.topMargin);
-//                //revealYDirection = RevealYDirection.DOWN;
-//            }
-//        }
     }
 
-    public int getSheetRevealCenterX(View view, Direction mDirection) {
+    int getSheetRevealCenterX(View view, Direction mDirection) {
         if (mDirection == Direction.LEFT)
             return (int) (view.getX() + (view.getWidth() / 2) + (view.getWidth() * const_val));
         else if (mDirection == Direction.RIGHT)
@@ -160,7 +134,7 @@ public class ViewHelper {
             return (int) (view.getX() + (view.getWidth() / 2));
     }
 
-    public int getSheetRevealCenterY(View view, Direction mDirection) {
+    int getSheetRevealCenterY(View view, Direction mDirection) {
         if (mDirection == Direction.UP)
             return (int) (view.getY() + (view.getHeight() / 2) + (view.getHeight() * const_val));
         else if (mDirection == Direction.DOWN)
@@ -169,13 +143,13 @@ public class ViewHelper {
             return (int) (view.getY() + (view.getHeight() / 2));
     }
 
-    public Point updateFabAnchor(View mFabView) {
+    Point updateFabAnchor(View mFabView) {
         // Update the anchor with the current translation
         return setFabAnchor(mFabView, mFabView.getTranslationX(), mFabView.getTranslationY());
     }
 
 
-    public Point setFabAnchor(View mFabView, float translationX, float translationY) {
+    private Point setFabAnchor(View mFabView, float translationX, float translationY) {
         int anchorX = Math
                 .round(mFabView.getX() + (mFabView.getWidth() / 2) + (translationX - mFabView.getTranslationX()));
         int anchorY = Math
@@ -184,15 +158,13 @@ public class ViewHelper {
         return new Point(anchorX, anchorY);
     }
 
-    public int dpToPx(Context mContext, int dp) {
+    private int dpToPx(Context mContext, int dp) {
         DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
-        int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-        return px;
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
     public int pxToDp(Context mContext, int px) {
         DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
-        int dp = Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-        return dp;
+        return Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 }

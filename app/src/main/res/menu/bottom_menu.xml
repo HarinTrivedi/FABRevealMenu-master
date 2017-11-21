@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_xml"
+        android:icon="@drawable/ic_design"
+        android:title="BY XML" />
+    <item
+        android:id="@+id/nav_code"
+        android:icon="@drawable/ic_code"
+        android:title="BY CODE" />
+
+    <item
+        android:id="@+id/nav_custom"
+        android:icon="@drawable/ic_hand"
+        android:title="Custom View" />
+
+</menu>

@@ -1,17 +1,17 @@
 <resources>
-    <string name="app_name">FABRevealMenu-master</string>
+    <string name="app_name">FABRevealMenu</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
 
     <string name="information_demo_one">This fragment shows xml configuration of FabRevealMenu with horizontal orientation.</string>
-    <string name="information_demo_two">This fragment shows xml configuration of FabRevealMenu with vertical orientation.</string>
-    <string name="information_demo_three">This fragment shows dynamic configuration of FabRevealMenu with dynamic menu item creation.
-        \n\nUse below checkboxes to change different settings</string>
+    <string name="information_demo_three">This fragment shows dynamic configuration of FabRevealMenu with dynamic menu item creation.</string>
 
     <string name="show_title">Show Title</string>
-    <string name="show_animation">Show Animations</string>
-    <string name="show_direction">Change Direction</string>
-    <string name="show_double">Show Double Items</string>
+    <string name="show_double">Show More Items</string>
     <string name="show_overlay">Show Overlay</string>
+    <string name="change_direction">Change Direction :</string>
+
+    <string name="show_font">Custom font</string>
+    <string name="show_small">Smaller menu</string>
 
     <string name="direction_hint">(To use  \'RIGHT\' and \'DOWN\' directions, you are recommended to place your FAB at proper place on screen)</string>
 
@@ -104,9 +104,13 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
-    <string name="change_direction">Change Direction :</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="navigation_drawer_open">open_drawer</string>
+    <string name="navigation_drawer_close">close_drawer</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
 </resources>

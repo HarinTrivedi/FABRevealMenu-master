@@ -27,14 +27,14 @@ public class ScrollingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fabMenu = (FABRevealMenu) findViewById(R.id.fabMenu);
+        final FloatingActionButton fab = findViewById(R.id.fab);
+        fabMenu = findViewById(R.id.fabMenu);
 
         try {
             if (fab != null && fabMenu != null) {
@@ -42,7 +42,7 @@ public class ScrollingActivity extends AppCompatActivity {
                 View customView = View.inflate(this, R.layout.layout_custom_menu, null);
                 setupCustomFilterView(customView);
                 fabMenu.setCustomView(customView);
-                fabMenu.bindAncherView(fab);
+                fabMenu.bindAnchorView(fab);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -52,11 +52,11 @@ public class ScrollingActivity extends AppCompatActivity {
 
     private void setupCustomFilterView(View customView) {
         if (customView != null) {
-            Button btnApply = (Button) customView.findViewById(R.id.btnApply);
-            CheckBox cb1 = (CheckBox) customView.findViewById(R.id.cb1);
-            CheckBox cb2 = (CheckBox) customView.findViewById(R.id.cb2);
-            CheckBox cb3 = (CheckBox) customView.findViewById(R.id.cb3);
-            CheckBox cb4 = (CheckBox) customView.findViewById(R.id.cb4);
+            Button btnApply = customView.findViewById(R.id.btnApply);
+            CheckBox cb1 = customView.findViewById(R.id.cb1);
+            CheckBox cb2 = customView.findViewById(R.id.cb2);
+            CheckBox cb3 = customView.findViewById(R.id.cb3);
+            CheckBox cb4 = customView.findViewById(R.id.cb4);
 
             final CheckBox[] filters = new CheckBox[]{cb1, cb2, cb3, cb4};
 

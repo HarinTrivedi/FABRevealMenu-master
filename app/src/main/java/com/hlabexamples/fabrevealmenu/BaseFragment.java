@@ -10,6 +10,8 @@ import com.hlab.fabrevealmenu.view.FABRevealMenu;
  */
 public class BaseFragment extends Fragment {
 
+    private FABRevealMenu fabMenu;
+
     public boolean onBackPressed() {
         if (fabMenu != null) {
             if (fabMenu.isShowing()) {
@@ -19,8 +21,6 @@ public class BaseFragment extends Fragment {
         }
         return true;
     }
-
-    private FABRevealMenu fabMenu;
 
     public FABRevealMenu getFabMenu() {
         return fabMenu;
