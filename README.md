@@ -1,4 +1,4 @@
-# FABRevealMenu-master
+# FABRevealMenu
 
 Please follow wiki page for instructions
 
