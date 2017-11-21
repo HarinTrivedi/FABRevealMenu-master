@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -15,71 +14,89 @@
         android:text="@string/information_demo_three"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <CheckBox
-        android:id="@+id/chTitle"
-        android:layout_width="wrap_content"
+    <TableLayout
+        android:id="@+id/table"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView"
         android:layout_alignStart="@+id/textView"
-        android:layout_below="@+id/textView"
-        android:layout_marginTop="10dp"
-        android:checked="true"
-        android:text="@string/show_title"
-        android:textSize="16sp" />
+        android:layout_below="@+id/textView">
 
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
 
-    <CheckBox
-        android:id="@+id/chOverlay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/chTitle"
-        android:layout_alignStart="@+id/chTitle"
-        android:layout_below="@+id/chTitle"
-        android:layout_marginTop="10dp"
-        android:checked="true"
-        android:text="@string/show_overlay"
-        android:textSize="16sp" />
+            <CheckBox
+                android:id="@+id/chTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/show_title"
+                android:textSize="16sp" />
 
-    <CheckBox
-        android:id="@+id/chDouble"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/chOverlay"
-        android:layout_alignStart="@+id/chOverlay"
-        android:layout_below="@+id/chOverlay"
-        android:layout_marginTop="10dp"
-        android:text="@string/show_double"
-        android:textSize="16sp" />
+            <CheckBox
+                android:id="@+id/chOverlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:checked="true"
+                android:text="@string/show_overlay"
+                android:textSize="16sp" />
+        </TableRow>
 
-    <CheckBox
-        android:id="@+id/chFont"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/chDouble"
-        android:layout_alignStart="@+id/chDouble"
-        android:layout_below="@+id/chDouble"
-        android:layout_marginTop="10dp"
-        android:text="@string/show_font"
-        android:textSize="16sp" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
 
-    <CheckBox
-        android:id="@+id/chSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/chFont"
-        android:layout_alignStart="@+id/chFont"
-        android:layout_below="@+id/chFont"
-        android:layout_marginTop="10dp"
-        android:text="@string/show_small"
-        android:textSize="16sp" />
+            <CheckBox
+                android:id="@+id/chDouble"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show_double"
+                android:textSize="16sp" />
+
+            <CheckBox
+                android:id="@+id/chFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="@string/show_font"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+
+            <CheckBox
+                android:id="@+id/chSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show_small"
+                android:textSize="16sp" />
+
+            <CheckBox
+                android:id="@+id/chAnimate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="@string/show_anim"
+                android:textSize="16sp" />
+
+        </TableRow>
+    </TableLayout>
 
     <LinearLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/chSmall"
-        android:layout_alignStart="@+id/chSmall"
-        android:layout_below="@+id/chSmall"
+        android:layout_alignLeft="@+id/table"
+        android:layout_alignStart="@+id/table"
+        android:layout_below="@+id/table"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -104,7 +121,7 @@
         android:layout_alignLeft="@+id/layout"
         android:layout_alignStart="@+id/layout"
         android:layout_below="@+id/layout"
-        android:layout_margin="10dp"
+        android:layout_marginTop="15dp"
         android:text="@string/direction_hint"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -116,7 +133,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
-        app:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="@color/colorAccent"
         app:fabSize="normal"
         app:srcCompat="@drawable/ic_menu" />
 
@@ -125,8 +142,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        app:menuBackgroundColor="@color/colorPrimaryDark"
+        app:menuBackgroundColor="@color/colorAccent"
         app:menuTitleTextColor="@color/colorWhite"
-        app:showTitle="true" />
+        app:showTitle="true">
+
+    </com.hlab.fabrevealmenu.view.FABRevealMenu>
 
 </RelativeLayout>

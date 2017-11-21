@@ -22,6 +22,8 @@
             <enum name="normal" value="0" />
             <enum name="small" value="1" />
         </attr>
+
+        <attr name="menuTitleFontFamily" format="reference" />
     </declare-styleable>
 
 </resources>

@@ -2,7 +2,7 @@
     <string name="app_name">FABRevealMenu</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
 
-    <string name="information_demo_one">This fragment shows xml configuration of FabRevealMenu with horizontal orientation.</string>
+    <string name="information_demo_one">This fragment shows xml configuration of FabRevealMenu with horizontal orientation. Play with different layout attributes to customize the experience</string>
     <string name="information_demo_three">This fragment shows dynamic configuration of FabRevealMenu with dynamic menu item creation.</string>
 
     <string name="show_title">Show Title</string>
@@ -12,6 +12,7 @@
 
     <string name="show_font">Custom font</string>
     <string name="show_small">Smaller menu</string>
+    <string name="show_anim">Animate</string>
 
     <string name="direction_hint">(To use  \'RIGHT\' and \'DOWN\' directions, you are recommended to place your FAB at proper place on screen)</string>
 

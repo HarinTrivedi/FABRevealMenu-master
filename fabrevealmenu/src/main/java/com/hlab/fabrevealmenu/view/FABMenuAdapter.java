@@ -179,6 +179,14 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
         this.mMenuTitleTypeface = mMenuTitleTypeface;
     }
 
+    public boolean isAnimateItems() {
+        return animateItems;
+    }
+
+    public void setAnimateItems(boolean animateItems) {
+        this.animateItems = animateItems;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         FABMenuItem item;

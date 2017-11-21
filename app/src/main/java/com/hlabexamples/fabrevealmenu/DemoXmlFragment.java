@@ -1,16 +1,13 @@
 package com.hlabexamples.fabrevealmenu;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -47,25 +44,6 @@ public class DemoXmlFragment extends BaseFragment implements OnFABMenuSelectedLi
         } catch (Exception e) {
             e.printStackTrace();
         }
-        CheckBox cbFont = view.findViewById(R.id.chFont);
-        cbFont.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (fabMenu != null) {
-                fabMenu.setMenuTitleTypeface(ResourcesCompat.getFont(getActivity(), R.font.quicksand));
-            }
-        });
-        CheckBox chSmall = view.findViewById(R.id.chSmall);
-        chSmall.setOnCheckedChangeListener((compoundButton, isSmaller) -> {
-            if (fabMenu != null) {
-                if (isSmaller)
-                    fabMenu.setSmallerMenu();
-                else
-                    fabMenu.setNormalMenu();
-            }
-        });
-        view.findViewById(R.id.textView).setOnClickListener(view1 -> {
-            Intent i = new Intent(getActivity(), ScrollingActivity.class);
-            startActivity(i);
-        });
 
         Spinner spDirections = view.findViewById(R.id.spDirection);
         spDirections.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, mDirectionStrings));

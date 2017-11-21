@@ -46,9 +46,10 @@ public class DemoCodeFragment extends BaseFragment implements OnFABMenuSelectedL
             if (fab != null && fabMenu != null) {
                 //attach menu to fab
                 setFabMenu(fabMenu);
-                fabMenu.bindAnchorView(fab);
                 //set menu items from arrylist
                 fabMenu.setMenuItems(items);
+                //attach menu to fab
+                fabMenu.bindAnchorView(fab);
                 //set menu item selection
                 fabMenu.setOnFABMenuSelectedListener(this);
             }
@@ -89,6 +90,13 @@ public class DemoCodeFragment extends BaseFragment implements OnFABMenuSelectedL
                     fabMenu.setSmallerMenu();
                 else
                     fabMenu.setNormalMenu();
+            }
+        });
+        CheckBox chAnimate = view.findViewById(R.id.chAnimate);
+        chAnimate.setOnCheckedChangeListener((compoundButton, enable) -> {
+            if (fabMenu != null) {
+                //set custom font typeface
+                fabMenu.enableItemAnimation(enable);
             }
         });
 

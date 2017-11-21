@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.support.annotation.ColorRes;
 import android.support.annotation.MenuRes;
 import android.support.annotation.NonNull;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -110,9 +111,8 @@ public class FABRevealMenu extends FrameLayout {
 
             //custom view
             int customView = a.getResourceId(R.styleable.FABRevealMenu_menuCustomView, -1);
-            if (customView != -1) {
+            if (customView != -1)
                 mCustomView = LayoutInflater.from(context).inflate(customView, null);
-            }
 
             //direction
             mDirection = Direction.fromId(a.getInt(R.styleable.FABRevealMenu_menuDirection, 0));
@@ -128,6 +128,13 @@ public class FABRevealMenu extends FrameLayout {
 
             //animation
             animateItems = a.getBoolean(R.styleable.FABRevealMenu_animateItems, true);
+
+            //Font
+            if (a.hasValue(R.styleable.FABRevealMenu_menuTitleFontFamily)) {
+                int fontId = a.getResourceId(R.styleable.FABRevealMenu_menuTitleFontFamily, -1);
+                if (fontId != -1)
+                    mMenuTitleTypeface = ResourcesCompat.getFont(context, fontId);
+            }
 
             a.recycle();
 
@@ -200,7 +207,6 @@ public class FABRevealMenu extends FrameLayout {
 
         mMenuRes = -1;
         mCustomView = null;
-        animateItems = false;
         if (menuList == null)
             throw new NullPointerException("Null items are not allowed.");
         removeAllViews();
@@ -266,14 +272,14 @@ public class FABRevealMenu extends FrameLayout {
 
     private void setUpView(View mView, boolean toSetMinWidth) {
         mBaseView = viewHelper.generateBaseView();
+        mBaseView.setCardBackgroundColor(mMenuBackground);
+
         mRevealView = viewHelper.generateRevealView();
         mOverlayLayout = null;
         mOverlayLayout = viewHelper.generateOverlayView();
         if (mShowOverlay) {
             mOverlayLayout.setBackgroundColor(mShowOverlay ? mOverlayBackground : getColor(android.R.color.transparent));
         }
-        mBaseView.setCardBackgroundColor(mMenuBackground);
-
 
         if (toSetMinWidth)
             mBaseView.setMinimumWidth(getResources().getDimensionPixelSize(isMenuSmall() ? R.dimen.menu_min_width_small : R.dimen.menu_min_width));
@@ -491,6 +497,19 @@ public class FABRevealMenu extends FrameLayout {
 
     private boolean isMenuSmall() {
         return mMenuSize == FAB_MENU_SIZE_SMALL;
+    }
+
+    /**
+     * Set normal size for menu item
+     */
+    public void enableItemAnimation(boolean enabled) {
+        animateItems = enabled;
+        if (menuAdapter != null) {
+            new Handler().post(() -> {
+                menuAdapter.setAnimateItems(enabled);
+                menuAdapter.notifyDataSetChanged();
+            });
+        }
     }
 
     /**
