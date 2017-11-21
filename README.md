@@ -4,18 +4,24 @@ Please follow wiki page for instructions
 
 <https://github.com/HarinTrivedi/FABRevealMenu-master/wiki>
 
-##Demo
+gradle dependency:
+
+````compile 'com.hlab.fabrevealmenu:fab-reveal-menu:1.0.3'````
+
+[ ![Download](https://api.bintray.com/packages/harintrivedi/FABRevealMenu/com.hlab.fabrevealmenu/images/download.svg) ](https://bintray.com/harintrivedi/FABRevealMenu/com.hlab.fabrevealmenu/_latestVersion)
+
+## Demo
 * Horizontal Menu
 
-![demo_horizontal](http://i.imgur.com/5bvlWoM.gif)
+![demo_horizontal](https://i.imgur.com/sS7SKp3.gif)
 
 * Vertical Menu
 
-![demo_horizontal](http://i.imgur.com/ZNl4FB2.gif)
+![demo_horizontal](https://i.imgur.com/OPO0sCn.gif)
 
 * Custom view in Menu
 
-![demo_horizontal](http://i.imgur.com/IJIPWCJ.gif)
+![demo_horizontal](https://i.imgur.com/FMrFoHs.gif)
 
 ## Thanks to
 
