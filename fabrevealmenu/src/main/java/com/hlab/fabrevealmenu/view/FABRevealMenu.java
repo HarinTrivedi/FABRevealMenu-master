@@ -184,8 +184,12 @@ public class FABRevealMenu extends FrameLayout {
         removeAllViews();
         @SuppressLint("RestrictedApi")
         Menu menu = new MenuBuilder(getContext());
-        new MenuInflater(getContext()).inflate(menuRes, menu);
+        inflateMenu(menuRes, menu);
         setUpMenu(menu);
+    }
+
+    protected void inflateMenu(@MenuRes int menuRes, Menu menu) {
+        new MenuInflater(getContext()).inflate(menuRes, menu);
     }
 
     public void updateMenu() {
@@ -393,7 +397,7 @@ public class FABRevealMenu extends FrameLayout {
             });
 
             // Show sheet after a delay
-            new Handler().postDelayed(() -> {
+            postDelayed(() -> {
                 int finalRadius = Math.max(mBaseView.getWidth(), mBaseView.getHeight());
                 animationHelper.revealMenu(mBaseView, mFab.getWidth() / 2, finalRadius, false, new AnimationListener() {
                     @Override
@@ -445,7 +449,7 @@ public class FABRevealMenu extends FrameLayout {
             });
 
             // Show FAB after a delay
-            new Handler().postDelayed(() -> animationHelper.moveFab(mFab, mRevealView, mDirection, true, new AnimationListener() {
+            postDelayed(() -> animationHelper.moveFab(mFab, mRevealView, mDirection, true, new AnimationListener() {
                 @Override
                 public void onStart() {
                     mFab.setVisibility(View.VISIBLE);
@@ -492,7 +496,7 @@ public class FABRevealMenu extends FrameLayout {
     public void setShowOverlay(boolean mShowOverlay) {
         this.mShowOverlay = mShowOverlay;
         closeMenu();
-        new Handler().post(this::recreateView);
+        post(this::recreateView);
     }
 
     private boolean isMenuSmall() {
@@ -505,7 +509,7 @@ public class FABRevealMenu extends FrameLayout {
     public void enableItemAnimation(boolean enabled) {
         animateItems = enabled;
         if (menuAdapter != null) {
-            new Handler().post(() -> {
+            post(() -> {
                 menuAdapter.setAnimateItems(enabled);
                 menuAdapter.notifyDataSetChanged();
             });
@@ -517,7 +521,7 @@ public class FABRevealMenu extends FrameLayout {
      */
     public void setSmallerMenu() {
         mMenuSize = FAB_MENU_SIZE_SMALL;
-        new Handler().post(this::recreateView);
+        post(this::recreateView);
     }
 
     /**
@@ -525,7 +529,7 @@ public class FABRevealMenu extends FrameLayout {
      */
     public void setNormalMenu() {
         mMenuSize = FAB_MENU_SIZE_NORMAL;
-        new Handler().post(this::recreateView);
+        post(this::recreateView);
     }
 
     public void setTitleVisible(boolean mShowTitle) {
@@ -537,7 +541,7 @@ public class FABRevealMenu extends FrameLayout {
                 mBaseView.setMinimumWidth(LayoutParams.WRAP_CONTENT);
             menuAdapter.setShowTitle(mShowTitle);
             closeMenu();
-            new Handler().post(this::recreateView);
+            post(this::recreateView);
         }
     }
 
@@ -565,14 +569,14 @@ public class FABRevealMenu extends FrameLayout {
         this.mDirection = mDirection;
         if (menuAdapter != null) {
             menuAdapter.setDirection(mDirection);
-            new Handler().post(this::recreateView);
+            post(this::recreateView);
         }
     }
 
     public void setMenuTitleTypeface(Typeface mMenuTitleTypeface) {
         if (mMenuTitleTypeface != null) {
             this.mMenuTitleTypeface = mMenuTitleTypeface;
-            new Handler().post(this::recreateView);
+            post(this::recreateView);
         }
     }
 }
