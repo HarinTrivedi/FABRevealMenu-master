@@ -23,7 +23,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
         android:gravity="center"
-        android:maxLines="1"
+        android:maxLines="@integer/horizontal_menu_max_lines"
         android:textColor="@android:color/white"
         android:textSize="@dimen/menu_text_size_horizontal_small"
         android:visibility="gone" />
