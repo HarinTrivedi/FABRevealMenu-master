@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
 import com.hlab.fabrevealmenu.R;
@@ -298,10 +299,19 @@ public class FABRevealMenu extends FrameLayout {
         //4.add reveal view
         addView(mRevealView);
 
-        mRevealView.post(() -> {
-            //set reveal center points after views are added
-            animationHelper.calculateCenterPoints(mBaseView, mDirection);
+        //set reveal center points after view is layed out
+        mBaseView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mBaseView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                animationHelper.calculateCenterPoints(mBaseView, mDirection);
+            }
         });
+
+//        mRevealView.post(() -> {
+//            //set reveal center points after views are added
+//            animationHelper.calculateCenterPoints(mBaseView, mDirection);
+//        });
         if (mOverlayLayout != null) {
             mOverlayLayout.setOnClickListener(v -> closeMenu());
         }
