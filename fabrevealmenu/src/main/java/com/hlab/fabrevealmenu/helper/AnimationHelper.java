@@ -3,7 +3,6 @@ package com.hlab.fabrevealmenu.helper;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.graphics.Point;
-import android.os.Build;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -13,7 +12,6 @@ import android.view.animation.Interpolator;
 import com.hlab.fabrevealmenu.enums.Direction;
 import com.hlab.fabrevealmenu.listeners.AnimationListener;
 
-import io.codetail.animation.SupportAnimator;
 import io.codetail.animation.arcanimator.ArcAnimator;
 import io.codetail.animation.arcanimator.Side;
 
@@ -45,8 +43,8 @@ public class AnimationHelper {
     public void moveFab(View fabView, View revealView, Direction direction, boolean isReturning, final AnimationListener listener) {
         float scaleFactor = isReturning ? -FAB_SCALE_FACTOR : FAB_SCALE_FACTOR;
         float alpha = isReturning ? 1.0f : 1.0f;
-        float endX = 0;
-        float endY = 0;
+        float endX;
+        float endY;
 
         if (!isReturning) {
             Point anchorPoint = viewHelper.updateFabAnchor(fabView);
@@ -71,60 +69,32 @@ public class AnimationHelper {
 
     private void startCircularRevealAnim(View view, int centerX, int centerY, float startRadius,
                                          float endRadius, long duration, Interpolator interpolator, final AnimationListener listener) {
-        // Use native circular reveal on Android 5.0+
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            // Native circular reveal uses coordinates relative to the view
-            int relativeCenterX = (int) (centerX - view.getX());
-            int relativeCenterY = (int) (centerY - view.getY());
-            // Setup animation
-            Animator anim = ViewAnimationUtils.createCircularReveal(view, relativeCenterX,
-                    relativeCenterY, startRadius, endRadius);
-            anim.setDuration(duration);
-            anim.setInterpolator(interpolator);
-            // Add listener
-            anim.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    if (listener != null) {
-                        listener.onStart();
-                    }
+        // Native circular reveal uses coordinates relative to the view
+        int relativeCenterX = (int) (centerX - view.getX());
+        int relativeCenterY = (int) (centerY - view.getY());
+        // Setup animation
+        Animator anim = ViewAnimationUtils.createCircularReveal(view, relativeCenterX,
+                relativeCenterY, startRadius, endRadius);
+        anim.setDuration(duration);
+        anim.setInterpolator(interpolator);
+        // Add listener
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                if (listener != null) {
+                    listener.onStart();
                 }
+            }
 
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    if (listener != null) {
-                        listener.onEnd();
-                    }
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (listener != null) {
+                    listener.onEnd();
                 }
-            });
-            // Start animation
-            anim.start();
-        } else {
-            // Circular reveal library uses absolute coordinates
-            // Setup animation
-            SupportAnimator anim = io.codetail.animation.ViewAnimationUtils
-                    .createCircularReveal(view, centerX, centerY, startRadius, endRadius);
-            anim.setDuration((int) duration);
-            anim.setInterpolator(interpolator);
-            // Add listener
-            anim.addListener(new SupportAnimator.SimpleAnimatorListener() {
-                @Override
-                public void onAnimationStart() {
-                    if (listener != null) {
-                        listener.onStart();
-                    }
-                }
-
-                @Override
-                public void onAnimationEnd() {
-                    if (listener != null) {
-                        listener.onEnd();
-                    }
-                }
-            });
-            // Start animation
-            anim.start();
-        }
+            }
+        });
+        // Start animation
+        anim.start();
     }
 
     private void startArcAnim(View view, float endX, float endY, float degrees, Side side,

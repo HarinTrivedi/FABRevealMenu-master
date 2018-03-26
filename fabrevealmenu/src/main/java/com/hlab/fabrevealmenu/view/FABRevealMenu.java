@@ -22,6 +22,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.hlab.fabrevealmenu.R;
 import com.hlab.fabrevealmenu.enums.Direction;
@@ -33,8 +34,6 @@ import com.hlab.fabrevealmenu.listeners.OnMenuStateChangedListener;
 import com.hlab.fabrevealmenu.model.FABMenuItem;
 
 import java.util.ArrayList;
-
-import io.codetail.widget.RevealLinearLayout;
 
 public class FABRevealMenu extends FrameLayout {
 
@@ -65,7 +64,7 @@ public class FABRevealMenu extends FrameLayout {
 
     //Views in the menu
     private FrameLayout mOverlayLayout = null;
-    private RevealLinearLayout mRevealView = null;
+    private LinearLayout mRevealView = null;
     private RecyclerView mMenuView = null;
     private boolean mEnableNestedScrolling = true;
     private CardView mBaseView = null;

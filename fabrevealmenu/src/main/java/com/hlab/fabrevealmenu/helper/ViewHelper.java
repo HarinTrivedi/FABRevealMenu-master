@@ -9,11 +9,10 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.hlab.fabrevealmenu.R;
 import com.hlab.fabrevealmenu.enums.Direction;
-
-import io.codetail.widget.RevealLinearLayout;
 
 public class ViewHelper {
 
@@ -54,9 +53,9 @@ public class ViewHelper {
         return mMenuView;
     }
 
-    public RevealLinearLayout generateRevealView() {
+    public LinearLayout generateRevealView() {
         //Reveal view
-        RevealLinearLayout mRevealView = new RevealLinearLayout(mContext);
+        LinearLayout mRevealView = new LinearLayout(mContext);
         mRevealView.setBackgroundColor(Color.TRANSPARENT);
         mRevealView.setLayoutParams(wrapParams);
         mRevealView.setVisibility(View.INVISIBLE);

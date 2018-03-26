@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 26
         versionCode 3
         versionName "1.0.3"
@@ -29,9 +29,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:26.1.0'
     //External libs
     compile 'com.github.asyl.animation:arcanimator:1.0.0'
-    compile('com.github.ozodrukh:CircularReveal:1.3.1@aar') {
-        transitive = true
-    }
+
 }
 
 ext {
