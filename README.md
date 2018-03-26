@@ -1,4 +1,4 @@
-# FABRevealMenu-master
+# FABRevealMenu
 
 Please follow wiki page for instructions
 
@@ -9,6 +9,12 @@ gradle dependency:
 ````compile 'com.hlab.fabrevealmenu:fab-reveal-menu:1.0.3'````
 
 [ ![Download](https://api.bintray.com/packages/harintrivedi/FABRevealMenu/com.hlab.fabrevealmenu/images/download.svg) ](https://bintray.com/harintrivedi/FABRevealMenu/com.hlab.fabrevealmenu/_latestVersion)
+
+## What's new:
+* Vector icon support
+* Font support
+* Set Smaller menu size
+* Disable menut item
 
 ## Demo
 * Horizontal Menu
