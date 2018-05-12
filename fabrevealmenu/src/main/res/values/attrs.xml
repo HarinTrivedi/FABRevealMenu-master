@@ -15,6 +15,7 @@
         <attr name="overlayBackground" format="color" />
 
         <attr name="showTitle" format="boolean" />
+        <attr name="showIcon" format="boolean" />
         <attr name="menuTitleTextColor" format="color" />
         <attr name="menuTitleDisabledTextColor" format="color" />
         <attr name="animateItems" format="boolean" />

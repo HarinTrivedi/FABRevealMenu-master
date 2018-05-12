@@ -30,6 +30,7 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
     private List<FABMenuItem> mItems;
     private int rowLayoutResId = 0;
     private boolean showTitle = false;
+    private boolean showIcon = true;
     private int titleTextColor;
     private int titleDisabledTextColor;
     private Direction direction;
@@ -43,12 +44,13 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
     private Typeface mMenuTitleTypeface;
 
     FABMenuAdapter(FABRevealMenu parent, List<FABMenuItem> mItems, int rowLayoutResId, boolean isCircularShape, int titleTextColor, int titleDisabledTextColor,
-                   boolean showTitle, Direction direction, boolean animateItems) {
+                   boolean showTitle, boolean showIcon, Direction direction, boolean animateItems) {
         this.parent = parent;
         this.mItems = mItems;
         this.rowLayoutResId = rowLayoutResId;
         this.isCircularShape = isCircularShape;
         this.showTitle = showTitle;
+        this.showIcon = showIcon;
         this.titleTextColor = titleTextColor;
         this.titleDisabledTextColor = titleDisabledTextColor;
         this.animateItems = animateItems;
@@ -155,6 +157,14 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
         this.showTitle = showTitle;
     }
 
+    public boolean isShowIcon() {
+        return showIcon;
+    }
+
+    public void setShowIcon(boolean showIcon) {
+        this.showIcon = showIcon;
+    }
+
     public int getTitleTextColor() {
         return titleTextColor;
     }
@@ -201,6 +211,7 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
             tvTitle.setTextColor(new ColorStateList(new int[][]{new int[]{android.R.attr.state_enabled}, new int[]{-android.R.attr.state_enabled}}, new int[]{titleTextColor, titleDisabledTextColor}));
             tvTitle.setVisibility(showTitle ? View.VISIBLE : View.GONE);
             imgIcon = itemView.findViewById(R.id.img_menu_item);
+            imgIcon.setVisibility(showIcon ? View.VISIBLE : View.GONE);
 
             if (mMenuTitleTypeface != null)
                 tvTitle.setTypeface(mMenuTitleTypeface);

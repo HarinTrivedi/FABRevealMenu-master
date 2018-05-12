@@ -57,6 +57,7 @@ public class FABRevealMenu extends FrameLayout {
     private int mMenuSize;
     private Direction mDirection;
     private boolean mShowTitle;
+    private boolean mShowIcon;
     private int mTitleTextColor;
     private int mTitleDisabledTextColor;
     private boolean animateItems;
@@ -121,6 +122,7 @@ public class FABRevealMenu extends FrameLayout {
             mTitleTextColor = a.getColor(R.styleable.FABRevealMenu_menuTitleTextColor, getColor(android.R.color.white));
             mTitleDisabledTextColor = a.getColor(R.styleable.FABRevealMenu_menuTitleDisabledTextColor, getColor(android.R.color.darker_gray));
             mShowTitle = a.getBoolean(R.styleable.FABRevealMenu_showTitle, true);
+            mShowIcon = a.getBoolean(R.styleable.FABRevealMenu_showIcon, true);
             mShowOverlay = a.getBoolean(R.styleable.FABRevealMenu_showOverlay, true);
 
             //size
@@ -254,7 +256,7 @@ public class FABRevealMenu extends FrameLayout {
                 int rowLayoutResId = isMenuSmall() ? R.layout.row_horizontal_menu_item_small : R.layout.row_horizontal_menu_item;
 
                 mMenuView.setLayoutManager(new DynamicGridLayoutManager(mContext, minItemWidth, menuList.size()));
-                menuAdapter = new FABMenuAdapter(this, menuList, rowLayoutResId, true, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mDirection, animateItems);
+                menuAdapter = new FABMenuAdapter(this, menuList, rowLayoutResId, true, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mShowIcon, mDirection, animateItems);
                 if (mMenuTitleTypeface != null)
                     menuAdapter.setMenuTitleTypeface(mMenuTitleTypeface);
 
@@ -263,7 +265,7 @@ public class FABRevealMenu extends FrameLayout {
                 int rowLayoutResId = isMenuSmall() ? R.layout.row_vertical_menu_item_small : R.layout.row_vertical_menu_item;
 
                 mMenuView.setLayoutManager(new DynamicGridLayoutManager(mContext, 0, 0));
-                menuAdapter = new FABMenuAdapter(this, menuList, rowLayoutResId, isCircularShape, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mDirection, animateItems);
+                menuAdapter = new FABMenuAdapter(this, menuList, rowLayoutResId, isCircularShape, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mShowIcon, mDirection, animateItems);
                 if (mMenuTitleTypeface != null)
                     menuAdapter.setMenuTitleTypeface(mMenuTitleTypeface);
 
