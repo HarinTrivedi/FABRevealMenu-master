@@ -39,7 +39,7 @@ gradle dependency:
 
 ## LICENSE
 ````
-Copyright 2016 Harry's Lab
+Copyright 2018 Harry's Lab
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
