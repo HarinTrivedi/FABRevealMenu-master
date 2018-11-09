@@ -27,5 +27,6 @@ dependencies {
     implementation material
     implementation kotlin
 
-    implementation project(':fabrevealmenu')
+    implementation 'com.github.PingerOne:FABRevealMenu:1.0.6'
+//    implementation project(':fabrevealmenu')
 }
