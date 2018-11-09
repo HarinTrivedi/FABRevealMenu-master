@@ -1,11 +1,11 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 26
+        targetSdkVersion 28
         versionCode 4
         versionName "1.0.4"
         vectorDrawables.useSupportLibrary = true
@@ -16,27 +16,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
-    implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.android.support:cardview-v7:28.0.0'
     //External libs
     implementation 'com.github.asyl.animation:arcanimator:1.0.0'
 
 }
-
-ext {
-    PUBLISH_GROUP_ID = 'com.hlab.fabrevealmenu'
-    PUBLISH_ARTIFACT_ID = 'fab-reveal-menu'
-    PUBLISH_VERSION = '1.0.4'
-}
-
-
-apply from: '../android-release-aar.gradle'

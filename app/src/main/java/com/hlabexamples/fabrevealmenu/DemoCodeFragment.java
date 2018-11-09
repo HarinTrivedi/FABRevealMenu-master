@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -58,45 +59,63 @@ public class DemoCodeFragment extends BaseFragment implements OnFABMenuSelectedL
         }
 
         CheckBox cbTitle = view.findViewById(R.id.chTitle);
-        cbTitle.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (fabMenu != null) {
-                fabMenu.setTitleVisible(b);
+        cbTitle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (fabMenu != null) {
+                    fabMenu.setTitleVisible(isChecked);
+                }
             }
         });
         CheckBox cbShowOverlay = view.findViewById(R.id.chOverlay);
-        cbShowOverlay.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (fabMenu != null) {
-                fabMenu.setShowOverlay(b);
+        cbShowOverlay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (fabMenu != null) {
+                    fabMenu.setShowOverlay(isChecked);
+                }
             }
         });
         CheckBox cbDouble = view.findViewById(R.id.chDouble);
-        cbDouble.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (fabMenu != null) {
-                initItems(b);
-                fabMenu.setMenuItems(items);
+        cbDouble.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (fabMenu != null) {
+                    initItems(isChecked);
+                    fabMenu.setMenuItems(items);
+                }
             }
         });
         CheckBox cbFont = view.findViewById(R.id.chFont);
-        cbFont.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (fabMenu != null) {
-                //set custom font typeface
-                fabMenu.setMenuTitleTypeface(ResourcesCompat.getFont(getActivity(), R.font.quicksand));
+        cbFont.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (fabMenu != null) {
+                    //set custom font typeface
+                    fabMenu.setMenuTitleTypeface(ResourcesCompat.getFont(getActivity(), R.font.quicksand));
+                }
             }
         });
         CheckBox chSmall = view.findViewById(R.id.chSmall);
-        chSmall.setOnCheckedChangeListener((compoundButton, isSmaller) -> {
-            if (fabMenu != null) {
-                if (isSmaller)
-                    fabMenu.setSmallerMenu();
-                else
-                    fabMenu.setNormalMenu();
+        chSmall.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (fabMenu != null) {
+                    if (isChecked)
+                        fabMenu.setSmallerMenu();
+                    else
+                        fabMenu.setNormalMenu();
+                }
             }
         });
         CheckBox chAnimate = view.findViewById(R.id.chAnimate);
-        chAnimate.setOnCheckedChangeListener((compoundButton, enable) -> {
-            if (fabMenu != null) {
-                //set custom font typeface
-                fabMenu.enableItemAnimation(enable);
+        chAnimate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (fabMenu != null) {
+                    //set custom font typeface
+                    fabMenu.enableItemAnimation(isChecked);
+                }
             }
         });
 
