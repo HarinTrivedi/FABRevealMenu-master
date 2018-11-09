@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion COMPILE_SDK_VERSION as int
 
     defaultConfig {
         applicationId "com.hlabexamples.fabrevealmenu"
-        minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 3
-        versionName "1.0.3"
+        minSdkVersion MIN_SDK_VERSION as int
+        targetSdkVersion TARGET_SDK_VERSION as int
+        versionCode VERSION_CODE as int
+        versionName VERSION_NAME
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -21,8 +21,8 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support:design:28.0.0'
+    implementation appcompat
+    implementation material
 
     implementation project(':fabrevealmenu')
 }

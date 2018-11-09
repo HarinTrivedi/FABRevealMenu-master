@@ -1,10 +1,10 @@
 package com.hlabexamples.fabrevealmenu;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.content.res.AppCompatResources;
+import androidx.annotation.Nullable;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.appcompat.content.res.AppCompatResources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

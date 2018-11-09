@@ -3,7 +3,7 @@ package com.hlab.fabrevealmenu.helper;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.graphics.Point;
-import android.support.v4.view.animation.FastOutLinearInInterpolator;
+import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateDecelerateInterpolator;
