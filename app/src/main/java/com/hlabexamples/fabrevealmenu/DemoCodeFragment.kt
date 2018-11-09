@@ -105,6 +105,7 @@ class DemoCodeFragment : Fragment(), OnFABMenuSelectedListener {
     }
 
     private fun initItems(toShowDoubleItems: Boolean) {
+        items.clear()
         items.add(FABMenuItem("Attachments", iconDrawable = AppCompatResources.getDrawable(activity!!, R.drawable.ic_attachment)))
         items.add(FABMenuItem("Images", iconDrawable = AppCompatResources.getDrawable(activity!!, R.drawable.ic_image)))
         items.add(FABMenuItem("Places", iconDrawable = AppCompatResources.getDrawable(activity!!, R.drawable.ic_place)))
