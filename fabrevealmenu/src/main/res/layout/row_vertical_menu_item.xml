@@ -27,6 +27,8 @@
         android:paddingLeft="@dimen/menu_text_padding"
         android:paddingRight="0dp"
         android:paddingStart="@dimen/menu_text_padding"
+        android:layout_marginBottom="@dimen/extra_margin"
+        android:layout_marginTop="@dimen/extra_margin"
         android:textColor="@android:color/black"
         android:textSize="@dimen/menu_text_size"
         android:visibility="gone" />
