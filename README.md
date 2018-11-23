@@ -8,6 +8,7 @@ gradle dependency:
 
 ````implementation 'com.hlab.fabrevealmenu:fab-reveal-menu:1.0.3'````
 
+
 [ ![Download](https://api.bintray.com/packages/harintrivedi/FABRevealMenu/com.hlab.fabrevealmenu/images/download.svg) ](https://bintray.com/harintrivedi/FABRevealMenu/com.hlab.fabrevealmenu/_latestVersion)
 
 ## What's new:
