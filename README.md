@@ -32,8 +32,7 @@ gradle dependency:
 
 ## Thanks to
 
-1. ArcAnimator <https://github.com/asyl/ArcAnimator>
-2. CircularReveal <https://github.com/ozodrukh/CircularReveal>
+ ArcAnimator <https://github.com/asyl/ArcAnimator>
 ##
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/HarinTrivedi/)
