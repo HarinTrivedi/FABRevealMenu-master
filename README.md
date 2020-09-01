@@ -9,37 +9,30 @@ gradle dependency:
 ````implementation 'com.hlab.fabrevealmenu:fab-reveal-menu:1.0.4'````
 
 
-[ ![Download](https://api.bintray.com/packages/harintrivedi/FABRevealMenu/com.hlab.fabrevealmenu/images/download.svg) ](https://bintray.com/harintrivedi/FABRevealMenu/com.hlab.fabrevealmenu/_latestVersion)
-
 ## What's new:
 * Vector icon support
 * Font support
-* Set Smaller menu size
 * Disable menut item
+* Set menu corder radius
+* Set custom animation duration
 
 ## Demo
 * Horizontal Menu
 
-![demo_horizontal](https://i.imgur.com/sS7SKp3.gif)
+![demo_horizontal](https://i.imgur.com/238nJX7.gifv)
 
 * Vertical Menu
 
-![demo_horizontal](https://i.imgur.com/OPO0sCn.gif)
+![demo_vertical](https://i.imgur.com/OQwH1ls.gifv)
 
 * Custom view in Menu
 
-![demo_horizontal](https://i.imgur.com/FMrFoHs.gif)
+![demo_custom](https://i.imgur.com/FMrFoHs.gif)
 
-## Thanks to
-
- ArcAnimator <https://github.com/asyl/ArcAnimator>
-##
-
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/HarinTrivedi/)
 
 ## LICENSE
 ````
-Copyright 2018 Harry's Lab
+Copyright 2020 Harry's Lab
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
