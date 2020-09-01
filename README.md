@@ -1,4 +1,4 @@
-# FABRevealMenu
+# FABRevealMenu 2.0 ✌️
 ***
 An simple general purpose UI library to create custom user defied menu in modern way with your favourite Floating action button. It incorporates lollipop circular reveal view with cool animations somewhat inspired from google material design guideline <https://material.google.com/components/buttons-floating-action-button.html#buttons-floating-action-button-transitions>
 
@@ -7,7 +7,24 @@ Uses [Material Container Transformation](https://material.io/develop/android/the
 
 gradle dependency:
 
-````implementation 'com.hlab.fabrevealmenu:fab-reveal-menu:1.0.4'````
+Step 1. Add it in your root build.gradle at the end of repositories:
+
+````
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+````
+Step 2. Add the dependency
+
+````
+dependencies {
+        implementation 'com.github.HarinTrivedi:FABRevealMenu-master:2.0.0'
+}
+    
+````
 
 
 ## What's new:
