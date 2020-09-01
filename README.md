@@ -20,6 +20,12 @@ allprojects {
 Step 2. Add the dependency
 
 ````
+compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+....
+
 dependencies {
         implementation 'com.github.HarinTrivedi:FABRevealMenu-master:2.0.0'
 }
