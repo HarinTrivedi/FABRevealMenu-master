@@ -1,8 +1,9 @@
 # FABRevealMenu
+***
+An simple general purpose UI library to create custom user defied menu in modern way with your favourite Floating action button. It incorporates lollipop circular reveal view with cool animations somewhat inspired from google material design guideline <https://material.google.com/components/buttons-floating-action-button.html#buttons-floating-action-button-transitions>
 
-Please follow wiki page for instructions
-
-<https://github.com/HarinTrivedi/FABRevealMenu-master/wiki>
+Uses [Material Container Transformation](https://material.io/develop/android/theming/motion#container-transform) from material components by Google.
+***
 
 gradle dependency:
 
@@ -29,6 +30,65 @@ gradle dependency:
 
 ![demo_custom](https://i.imgur.com/FMrFoHs.gif)
 
+***
+## How to use
+* By xml
+
+Add namespace in layout like: 
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+Use FABRevealMenu in xml layout like:
+
+    <com.hlab.fabrevealmenu.view.FABRevealMenu
+        android:id="@+id/fabMenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        app:menuBackgroundColor="@colorRes"
+        app:menuDirection="left/top/right/bottom"
+        app:menuRes="@menuRes"
+        app:menuTitleTextColor="@colorRes"
+        app:showOverlay="true/false"
+        app:showTitle="true/false"
+        app:overlayBackground="@colorRes"
+        app:menuSize="normal/small"
+        app:duration="1000"
+        app:menuCornerRadius="15dp"
+        app:menuTitleFontFamily="@font/quicksand"
+        app:menuTitleDisabledTextColor="@colorRes""/>
+    
+
+
+* By Code
+
+All attributes can also be set/altered by below methods:
+
+````
+    setMenu(@MenuRes) // set R.menu resourece
+    setMenuItems(ArrayList<FABMenuItem>) // set custom menu items
+    setOverlayBackground(@ColorRes) // change default overlay background color 
+    setMenuBackground(@ColorRes) // change menu background color 
+    setShowOverlay(boolean) // change overlay visibility : be careful to use this
+    setTitleVisible(boolean) // set menu item title visibility
+    setMenuTitleTextColor(@ColorRes) // change menu item text color
+    setMenuDirection(Direction) // change menu direction when showed : place FAB on screen properly to change directions
+    setSmallerMenu() // small size menu
+    setNormalMenu() // normal size menu
+    setMenuTitleDisabledTextColor(@ColorRes) // set disable text color
+    setMenuTitleTypeface(@FontRes) // set custom font typeface
+
+````
+
+* Set custom view
+
+You can inflate custom view by two ways
+
+1. **app:menuCustomView="@layoutRes"** // you can get custom view object by calling getCustomView() on fabRevealMenu instance
+
+2. **setCustomView(View)**
+
+***
 
 ## LICENSE
 ````
