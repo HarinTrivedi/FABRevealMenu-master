@@ -19,11 +19,11 @@ gradle dependency:
 ## Demo
 * Horizontal Menu
 
-![demo_horizontal](https://i.imgur.com/238nJX7.gifv)
+![demo_horizontal](https://i.imgur.com/238nJX7.gif)
 
 * Vertical Menu
 
-![demo_vertical](https://i.imgur.com/OQwH1ls.gifv)
+![demo_vertical](https://i.imgur.com/OQwH1ls.gif)
 
 * Custom view in Menu
 
