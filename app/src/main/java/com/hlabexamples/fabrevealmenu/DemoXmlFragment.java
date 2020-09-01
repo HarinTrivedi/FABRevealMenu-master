@@ -1,8 +1,12 @@
 package com.hlabexamples.fabrevealmenu;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.hlab.fabrevealmenu.enums.Direction;
-import com.hlab.fabrevealmenu.listeners.OnFABMenuSelectedListener;
+import com.hlab.fabrevealmenu.helper.Direction;
+import com.hlab.fabrevealmenu.helper.OnFABMenuSelectedListener;
 import com.hlab.fabrevealmenu.view.FABRevealMenu;
 
 public class DemoXmlFragment extends BaseFragment implements OnFABMenuSelectedListener {
@@ -27,9 +31,15 @@ public class DemoXmlFragment extends BaseFragment implements OnFABMenuSelectedLi
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        final FABRevealMenu fabMenu = initFabMenu(view);
+
+        initListeners(view, fabMenu);
+    }
+
+    private FABRevealMenu initFabMenu(View view) {
         final FloatingActionButton fab = view.findViewById(R.id.fab);
         final FABRevealMenu fabMenu = view.findViewById(R.id.fabMenu);
 
@@ -44,7 +54,10 @@ public class DemoXmlFragment extends BaseFragment implements OnFABMenuSelectedLi
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return fabMenu;
+    }
 
+    private void initListeners(View view, FABRevealMenu fabMenu) {
         Spinner spDirections = view.findViewById(R.id.spDirection);
         spDirections.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, mDirectionStrings));
         spDirections.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

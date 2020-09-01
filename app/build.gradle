@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 29
 
     defaultConfig {
         applicationId "com.hlabexamples.fabrevealmenu"
         minSdkVersion 21
-        targetSdkVersion 26
-        versionCode 3
-        versionName "1.0.3"
-        vectorDrawables.useSupportLibrary = true
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0.0"
     }
     buildTypes {
         release {
@@ -25,10 +25,11 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
-    implementation 'com.android.support:support-v4:27.1.1'
-    implementation 'com.android.support:support-vector-drawable:27.1.1'
-
+    implementation 'com.google.android.material:material:1.2.0'
     implementation project(':fabrevealmenu')
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

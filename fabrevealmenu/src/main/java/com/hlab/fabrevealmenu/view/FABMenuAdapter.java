@@ -2,29 +2,23 @@ package com.hlab.fabrevealmenu.view;
 
 import android.content.res.ColorStateList;
 import android.graphics.Typeface;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.hlab.fabrevealmenu.R;
-import com.hlab.fabrevealmenu.enums.Direction;
+import com.hlab.fabrevealmenu.helper.Direction;
 import com.hlab.fabrevealmenu.model.FABMenuItem;
 
 import java.util.List;
 
 public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHolder> {
-
-    private final int ANIMATED_ITEMS_COUNT = 1;
-    private final Interpolator animInterpolator = new AccelerateDecelerateInterpolator();
-    private final int TRANSLATE_DISTANCE = 80;
-    private final int ANIM_DURATION = 350;
-    private final int ANIM_OFFSET = 50;
 
     private FABRevealMenu parent;
     private List<FABMenuItem> mItems;
@@ -35,16 +29,10 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
     private int titleDisabledTextColor;
     private Direction direction;
     private boolean isCircularShape;
-
-    private boolean isReturning = false;
-
-    private boolean animateItems = true;
-    private int lastAnimatedPosition = -1;
-    private int maxDuration;
     private Typeface mMenuTitleTypeface;
 
     FABMenuAdapter(FABRevealMenu parent, List<FABMenuItem> mItems, int rowLayoutResId, boolean isCircularShape, int titleTextColor, int titleDisabledTextColor,
-                   boolean showTitle, boolean showIcon, Direction direction, boolean animateItems) {
+                   boolean showTitle, boolean showIcon, Direction direction) {
         this.parent = parent;
         this.mItems = mItems;
         this.rowLayoutResId = rowLayoutResId;
@@ -53,10 +41,10 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
         this.showIcon = showIcon;
         this.titleTextColor = titleTextColor;
         this.titleDisabledTextColor = titleDisabledTextColor;
-        this.animateItems = animateItems;
         this.direction = direction;
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
@@ -68,8 +56,6 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
         holder.setData(mItems.get(position));
         holder.itemView.setEnabled(mItems.get(position).isEnabled());
         holder.tvTitle.setEnabled(mItems.get(position).isEnabled());
-        // Here you apply the animation when the view is bound
-        runEnterAnimation(holder.itemView, position);
     }
 
     @Override
@@ -100,53 +86,6 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
                 return;
             }
         }
-    }
-
-    private void runEnterAnimation(View view, int position) {
-        if (!animateItems || position < ANIMATED_ITEMS_COUNT - 1) {
-            return;
-        }
-
-        if (position > lastAnimatedPosition) {
-            lastAnimatedPosition = position;
-            if (isReturning)
-                startExitAnimation(view, position);
-            else
-                startEnterAnimation(view, position);
-        }
-    }
-
-    void resetAdapter(boolean returning) {
-        lastAnimatedPosition = -1;
-        isReturning = returning;
-        notifyDataSetChanged();
-        maxDuration = getItemCount() * ANIM_OFFSET;
-    }
-
-    private void startEnterAnimation(View view, int position) {
-        int translateTo = (direction == Direction.DOWN) ? -TRANSLATE_DISTANCE : TRANSLATE_DISTANCE;
-        view.setTranslationY(translateTo);
-        view.setAlpha(0);
-        view.animate()
-                .translationY(0)
-                .alpha(1)
-                .setInterpolator(animInterpolator)
-                .setDuration(ANIM_DURATION)
-                .setStartDelay(ANIM_OFFSET + position * ANIM_OFFSET)
-                .start();
-    }
-
-    private void startExitAnimation(View view, int position) {
-        int translateTo = (direction == Direction.DOWN) ? -TRANSLATE_DISTANCE : TRANSLATE_DISTANCE;
-        view.setTranslationY(0);
-        view.setAlpha(1);
-        view.animate()
-                .translationY(translateTo)
-                .alpha(0)
-                .setInterpolator(animInterpolator)
-                .setDuration(ANIM_DURATION)
-                .setStartDelay(maxDuration - position * ANIM_OFFSET)
-                .start();
     }
 
     public boolean isShowTitle() {
@@ -187,14 +126,6 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
 
     void setMenuTitleTypeface(Typeface mMenuTitleTypeface) {
         this.mMenuTitleTypeface = mMenuTitleTypeface;
-    }
-
-    public boolean isAnimateItems() {
-        return animateItems;
-    }
-
-    public void setAnimateItems(boolean animateItems) {
-        this.animateItems = animateItems;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

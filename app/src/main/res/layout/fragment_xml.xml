@@ -7,8 +7,8 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_margin="10dp"
         android:text="@string/information_demo_one"
@@ -18,9 +18,9 @@
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView"
         android:layout_below="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:layout_alignLeft="@+id/textView"
         android:orientation="horizontal">
 
         <TextView
@@ -34,35 +34,36 @@
             android:id="@+id/spDirection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp" />
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
         app:backgroundTint="@color/colorAccent"
         app:fabSize="normal"
-        app:srcCompat="@drawable/ic_menu" />
+        app:srcCompat="@drawable/ic_menu"
+        app:tint="@color/colorWhite" />
 
     <com.hlab.fabrevealmenu.view.FABRevealMenu
         android:id="@+id/fabMenu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        app:animateItems="true"
         app:menuBackgroundColor="@color/colorAccent"
+        app:duration="1000"
         app:menuDirection="left"
         app:menuRes="@menu/menu_fab"
         app:menuSize="normal"
         app:menuTitleFontFamily="@font/quicksand"
         app:menuTitleTextColor="@color/colorWhite"
         app:showOverlay="true"
+        app:menuCornerRadius="15dp"
         app:showTitle="true" />
 
 </RelativeLayout>

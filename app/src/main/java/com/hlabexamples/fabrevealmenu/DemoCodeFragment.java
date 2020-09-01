@@ -1,10 +1,15 @@
 package com.hlabexamples.fabrevealmenu;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.content.res.AppCompatResources;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.core.content.res.ResourcesCompat;
+import androidx.appcompat.content.res.AppCompatResources;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +19,13 @@ import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.hlab.fabrevealmenu.enums.Direction;
-import com.hlab.fabrevealmenu.listeners.OnFABMenuSelectedListener;
+import com.hlab.fabrevealmenu.helper.Direction;
+import com.hlab.fabrevealmenu.helper.OnFABMenuSelectedListener;
 import com.hlab.fabrevealmenu.model.FABMenuItem;
 import com.hlab.fabrevealmenu.view.FABRevealMenu;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class DemoCodeFragment extends BaseFragment implements OnFABMenuSelectedListener {
 
@@ -34,11 +40,17 @@ public class DemoCodeFragment extends BaseFragment implements OnFABMenuSelectedL
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         initItems(false);
 
+        final FABRevealMenu fabMenu = initFabMenu(view);
+
+        initListeners(view, fabMenu);
+    }
+
+    private FABRevealMenu initFabMenu(@NonNull View view) {
         FloatingActionButton fab = view.findViewById(R.id.fab);
         final FABRevealMenu fabMenu = view.findViewById(R.id.fabMenu);
 
@@ -56,7 +68,10 @@ public class DemoCodeFragment extends BaseFragment implements OnFABMenuSelectedL
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return fabMenu;
+    }
 
+    private void initListeners(@NonNull View view, FABRevealMenu fabMenu) {
         CheckBox cbTitle = view.findViewById(R.id.chTitle);
         cbTitle.setOnCheckedChangeListener((compoundButton, b) -> {
             if (fabMenu != null) {
@@ -80,7 +95,7 @@ public class DemoCodeFragment extends BaseFragment implements OnFABMenuSelectedL
         cbFont.setOnCheckedChangeListener((compoundButton, b) -> {
             if (fabMenu != null) {
                 //set custom font typeface
-                fabMenu.setMenuTitleTypeface(ResourcesCompat.getFont(getActivity(), R.font.quicksand));
+                fabMenu.setMenuTitleTypeface(ResourcesCompat.getFont(Objects.requireNonNull(getActivity()), R.font.quicksand));
             }
         });
         CheckBox chSmall = view.findViewById(R.id.chSmall);
@@ -92,16 +107,8 @@ public class DemoCodeFragment extends BaseFragment implements OnFABMenuSelectedL
                     fabMenu.setNormalMenu();
             }
         });
-        CheckBox chAnimate = view.findViewById(R.id.chAnimate);
-        chAnimate.setOnCheckedChangeListener((compoundButton, enable) -> {
-            if (fabMenu != null) {
-                //set custom font typeface
-                fabMenu.enableItemAnimation(enable);
-            }
-        });
-
         Spinner spDirections = view.findViewById(R.id.spDirection);
-        spDirections.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, mDirectionStrings));
+        spDirections.setAdapter(new ArrayAdapter<>(Objects.requireNonNull(getActivity()), android.R.layout.simple_spinner_dropdown_item, mDirectionStrings));
         spDirections.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
@@ -123,15 +130,11 @@ public class DemoCodeFragment extends BaseFragment implements OnFABMenuSelectedL
                 }
             }
         });
-
-        assert fabMenu != null;
-        fabMenu.setOverlayBackground(R.color.colorAccent);
-        fabMenu.setMenuBackground(R.color.colorWhite);
     }
 
     private void initItems(boolean toShowDoubleItems) {
         items = new ArrayList<>();
-        items.add(new FABMenuItem("Attachments", AppCompatResources.getDrawable(getActivity(), R.drawable.ic_attachment)));
+        items.add(new FABMenuItem("Attachments", AppCompatResources.getDrawable(Objects.requireNonNull(getActivity()), R.drawable.ic_attachment)));
         items.add(new FABMenuItem("Images", AppCompatResources.getDrawable(getActivity(), R.drawable.ic_image)));
         items.add(new FABMenuItem("Places", AppCompatResources.getDrawable(getActivity(), R.drawable.ic_place)));
         items.add(new FABMenuItem("Emoticons", AppCompatResources.getDrawable(getActivity(), R.drawable.ic_emoticon)));

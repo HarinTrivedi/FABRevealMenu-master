@@ -1,6 +1,5 @@
 <resources>
     <dimen name="shape_padding">5dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
     <dimen name="menu_size_horizontal">38dp</dimen>
     <dimen name="menu_size_horizontal_small">30dp</dimen>
     <dimen name="menu_size_vertical">30dp</dimen>

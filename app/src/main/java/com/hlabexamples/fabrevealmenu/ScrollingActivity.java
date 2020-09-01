@@ -1,9 +1,12 @@
 package com.hlabexamples.fabrevealmenu;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +14,8 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.hlab.fabrevealmenu.view.FABRevealMenu;
+
+import java.util.Objects;
 
 public class ScrollingActivity extends AppCompatActivity {
     FABRevealMenu fabMenu;
@@ -30,7 +35,7 @@ public class ScrollingActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final FloatingActionButton fab = findViewById(R.id.fab);
@@ -60,18 +65,15 @@ public class ScrollingActivity extends AppCompatActivity {
 
             final CheckBox[] filters = new CheckBox[]{cb1, cb2, cb3, cb4};
 
-            btnApply.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    fabMenu.closeMenu();
-                    StringBuilder builder = new StringBuilder("Selected:");
-                    for (CheckBox filter : filters) {
-                        if (filter.isChecked()) {
-                            builder.append("\n").append(filter.getText().toString());
-                        }
+            btnApply.setOnClickListener(view -> {
+                fabMenu.closeMenu();
+                StringBuilder builder = new StringBuilder("Selected:");
+                for (CheckBox filter : filters) {
+                    if (filter.isChecked()) {
+                        builder.append("\n").append(filter.getText().toString());
                     }
-                    Toast.makeText(ScrollingActivity.this, builder.toString(), Toast.LENGTH_SHORT).show();
                 }
+                Toast.makeText(ScrollingActivity.this, builder.toString(), Toast.LENGTH_SHORT).show();
             });
         }
 

@@ -1,4 +1,4 @@
-package com.hlab.fabrevealmenu.enums;
+package com.hlab.fabrevealmenu.helper;
 
 public enum Direction {
     LEFT(0), UP(1), RIGHT(2), DOWN(3);

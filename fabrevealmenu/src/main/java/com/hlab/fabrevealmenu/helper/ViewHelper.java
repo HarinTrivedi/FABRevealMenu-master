@@ -2,24 +2,21 @@ package com.hlab.fabrevealmenu.helper;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Point;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.hlab.fabrevealmenu.R;
-import com.hlab.fabrevealmenu.enums.Direction;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.card.MaterialCardView;
 
 public class ViewHelper {
 
     private final int SHEET_REVEAL_OFFSET_Y = 5;
     private Context mContext;
-    private int const_val = 1;
-
     //common layout parameter
     private ViewGroup.LayoutParams matchParams = null;
     private ViewGroup.LayoutParams wrapParams = null;
@@ -28,16 +25,13 @@ public class ViewHelper {
         mContext = context;
         matchParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         wrapParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        const_val = (int) ((SHEET_REVEAL_OFFSET_Y - 1.5) / SHEET_REVEAL_OFFSET_Y);
     }
 
-    public CardView generateBaseView() {
+    public CardView generateBaseView(int radius) {
         //Base view
-        CardView mBaseView = new CardView(mContext);
+        MaterialCardView mBaseView = new MaterialCardView(mContext);
+        mBaseView.setRadius(radius);
         mBaseView.setLayoutParams(matchParams);
-        mBaseView.setCardElevation(dpToPx(mContext, 5));
-        mBaseView.setRadius(mContext.getResources().getDimension(R.dimen.card_radius));
         return mBaseView;
     }
 
@@ -124,46 +118,8 @@ public class ViewHelper {
         }
     }
 
-    int getSheetRevealCenterX(View view, Direction mDirection) {
-        if (mDirection == Direction.LEFT)
-            return (int) (view.getX() + (view.getWidth() / 2) + (view.getWidth() * const_val));
-        else if (mDirection == Direction.RIGHT)
-            return (int) (view.getX() + (view.getWidth() / 2) - (view.getWidth() * const_val));
-        else
-            return (int) (view.getX() + (view.getWidth() / 2));
-    }
-
-    int getSheetRevealCenterY(View view, Direction mDirection) {
-        if (mDirection == Direction.UP)
-            return (int) (view.getY() + (view.getHeight() / 2) + (view.getHeight() * const_val));
-        else if (mDirection == Direction.DOWN)
-            return (int) (view.getY() + (view.getHeight() / 2) - (view.getHeight() * const_val));
-        else
-            return (int) (view.getY() + (view.getHeight() / 2));
-    }
-
-    Point updateFabAnchor(View mFabView) {
-        // Update the anchor with the current translation
-        return setFabAnchor(mFabView, mFabView.getTranslationX(), mFabView.getTranslationY());
-    }
-
-
-    private Point setFabAnchor(View mFabView, float translationX, float translationY) {
-        int anchorX = Math
-                .round(mFabView.getX() + (mFabView.getWidth() / 2) + (translationX - mFabView.getTranslationX()));
-        int anchorY = Math
-                .round(mFabView.getY() + (mFabView.getHeight() / 2) + (translationY - mFabView.getTranslationY()));
-
-        return new Point(anchorX, anchorY);
-    }
-
     private int dpToPx(Context mContext, int dp) {
         DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-    }
-
-    public int pxToDp(Context mContext, int px) {
-        DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
-        return Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 }

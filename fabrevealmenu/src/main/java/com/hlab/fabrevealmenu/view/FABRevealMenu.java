@@ -7,31 +7,29 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
-import android.os.Handler;
-import android.support.annotation.ColorRes;
-import android.support.annotation.MenuRes;
-import android.support.annotation.NonNull;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.view.menu.MenuBuilder;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import androidx.annotation.ColorRes;
+import androidx.annotation.MenuRes;
+import androidx.annotation.NonNull;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.view.ViewCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.hlab.fabrevealmenu.R;
-import com.hlab.fabrevealmenu.enums.Direction;
 import com.hlab.fabrevealmenu.helper.AnimationHelper;
+import com.hlab.fabrevealmenu.helper.Direction;
+import com.hlab.fabrevealmenu.helper.OnFABMenuSelectedListener;
 import com.hlab.fabrevealmenu.helper.ViewHelper;
-import com.hlab.fabrevealmenu.listeners.AnimationListener;
-import com.hlab.fabrevealmenu.listeners.OnFABMenuSelectedListener;
-import com.hlab.fabrevealmenu.listeners.OnMenuStateChangedListener;
 import com.hlab.fabrevealmenu.model.FABMenuItem;
 
 import java.util.ArrayList;
@@ -60,9 +58,10 @@ public class FABRevealMenu extends FrameLayout {
     private boolean mShowIcon;
     private int mTitleTextColor;
     private int mTitleDisabledTextColor;
-    private boolean animateItems;
     private int FAB_CURRENT_STATE = FAB_STATE_COLLAPSED;
     private Typeface mMenuTitleTypeface;
+    private int mMenuCornerRadius;
+    private int mDuration;
 
     //Views in the menu
     private FrameLayout mOverlayLayout = null;
@@ -76,7 +75,6 @@ public class FABRevealMenu extends FrameLayout {
     //Helper class
     private ViewHelper viewHelper;
     private AnimationHelper animationHelper;
-    private OnMenuStateChangedListener menuStateChangedListener;
 
     public FABRevealMenu(Context context) {
         super(context);
@@ -95,10 +93,6 @@ public class FABRevealMenu extends FrameLayout {
 
     private void initView(Context context, AttributeSet attrs) {
         mContext = context;
-
-        //helper initialization
-        viewHelper = new ViewHelper(context);
-        animationHelper = new AnimationHelper(viewHelper);
 
         if (attrs != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FABRevealMenu, 0, 0);
@@ -127,9 +121,8 @@ public class FABRevealMenu extends FrameLayout {
 
             //size
             mMenuSize = a.getInt(R.styleable.FABRevealMenu_menuSize, FAB_MENU_SIZE_NORMAL);
-
-            //animation
-            animateItems = a.getBoolean(R.styleable.FABRevealMenu_animateItems, true);
+            mMenuCornerRadius = a.getDimensionPixelSize(R.styleable.FABRevealMenu_menuCornerRadius, 10);
+            mDuration = a.getInteger(R.styleable.FABRevealMenu_duration, 500);
 
             //Font
             if (a.hasValue(R.styleable.FABRevealMenu_menuTitleFontFamily)) {
@@ -139,6 +132,10 @@ public class FABRevealMenu extends FrameLayout {
             }
 
             a.recycle();
+
+            //helper initialization
+            viewHelper = new ViewHelper(context);
+            animationHelper = new AnimationHelper(mDuration);
 
             //initialization
             if (mMenuRes != -1) {
@@ -165,10 +162,6 @@ public class FABRevealMenu extends FrameLayout {
         mCustomView.setClickable(true);
         viewHelper.setLayoutParams(mCustomView);
         setUpView(mCustomView, false);
-    }
-
-    public void setOnMenuStateChangedListener(OnMenuStateChangedListener menuStateChangedListener) {
-        this.menuStateChangedListener = menuStateChangedListener;
     }
 
     public void setNestedScrollingEnabled(boolean enabled) {
@@ -256,7 +249,7 @@ public class FABRevealMenu extends FrameLayout {
                 int rowLayoutResId = isMenuSmall() ? R.layout.row_horizontal_menu_item_small : R.layout.row_horizontal_menu_item;
 
                 mMenuView.setLayoutManager(new DynamicGridLayoutManager(mContext, minItemWidth, menuList.size()));
-                menuAdapter = new FABMenuAdapter(this, menuList, rowLayoutResId, true, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mShowIcon, mDirection, animateItems);
+                menuAdapter = new FABMenuAdapter(this, menuList, rowLayoutResId, true, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mShowIcon, mDirection);
                 if (mMenuTitleTypeface != null)
                     menuAdapter.setMenuTitleTypeface(mMenuTitleTypeface);
 
@@ -265,7 +258,7 @@ public class FABRevealMenu extends FrameLayout {
                 int rowLayoutResId = isMenuSmall() ? R.layout.row_vertical_menu_item_small : R.layout.row_vertical_menu_item;
 
                 mMenuView.setLayoutManager(new DynamicGridLayoutManager(mContext, 0, 0));
-                menuAdapter = new FABMenuAdapter(this, menuList, rowLayoutResId, isCircularShape, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mShowIcon, mDirection, animateItems);
+                menuAdapter = new FABMenuAdapter(this, menuList, rowLayoutResId, isCircularShape, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mShowIcon, mDirection);
                 if (mMenuTitleTypeface != null)
                     menuAdapter.setMenuTitleTypeface(mMenuTitleTypeface);
 
@@ -277,7 +270,7 @@ public class FABRevealMenu extends FrameLayout {
     }
 
     private void setUpView(View mView, boolean toSetMinWidth) {
-        mBaseView = viewHelper.generateBaseView();
+        mBaseView = viewHelper.generateBaseView(mMenuCornerRadius);
         mBaseView.setCardBackgroundColor(mMenuBackground);
 
         mRevealView = viewHelper.generateRevealView();
@@ -300,19 +293,6 @@ public class FABRevealMenu extends FrameLayout {
         //4.add reveal view
         addView(mRevealView);
 
-        //set reveal center points after view is layed out
-        mBaseView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                mBaseView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                animationHelper.calculateCenterPoints(mBaseView, mDirection);
-            }
-        });
-
-//        mRevealView.post(() -> {
-//            //set reveal center points after views are added
-//            animationHelper.calculateCenterPoints(mBaseView, mDirection);
-//        });
         if (mOverlayLayout != null) {
             mOverlayLayout.setOnClickListener(v -> closeMenu());
         }
@@ -327,8 +307,8 @@ public class FABRevealMenu extends FrameLayout {
     public void bindAnchorView(@NonNull View fab) {
         mFab = fab;
         mFab.post(() -> {
+            ViewCompat.setTransitionName(mFab, "FAB");
             mFab.setOnClickListener(v -> showMenu());
-            animationHelper.calculateCenterPoints(mBaseView, mDirection);
             viewHelper.alignMenuWithFab(mFab, mRevealView, mDirection);
         });
     }
@@ -392,40 +372,13 @@ public class FABRevealMenu extends FrameLayout {
             throw new IllegalStateException("FloatingActionButton not bound." +
                     "Please, use bindAnchorView() to add your Fab button.");
         }
-
-        animationHelper.calculateCenterPoints(mBaseView, mDirection);
-        viewHelper.alignMenuWithFab(mFab, mRevealView, mDirection);
-
         if (FAB_CURRENT_STATE == FAB_STATE_COLLAPSED) {
             FAB_CURRENT_STATE = FAB_STATE_EXPANDED;
-            if (menuStateChangedListener != null) menuStateChangedListener.onExpand();
-
-            animationHelper.moveFab(mFab, mRevealView, mDirection, false, new AnimationListener() {
-                @Override
-                public void onEnd() {
-                    mFab.setVisibility(View.INVISIBLE);
-                }
-            });
-
-            // Show sheet after a delay
-            postDelayed(() -> {
-                int finalRadius = Math.max(mBaseView.getWidth(), mBaseView.getHeight());
-                animationHelper.revealMenu(mBaseView, mFab.getWidth() / 2, finalRadius, false, new AnimationListener() {
-                    @Override
-                    public void onStart() {
-                        mRevealView.setVisibility(View.VISIBLE);
-                        if (menuAdapter != null) {
-                            menuAdapter.resetAdapter(false);
-                        }
-
-                        if (mOverlayLayout != null) {
-                            animationHelper.showOverlay(mOverlayLayout);
-                        }
-                    }
-                });
-            }, AnimationHelper.FAB_ANIM_DURATION - 50);
+            viewHelper.alignMenuWithFab(mFab, mRevealView, mDirection);
+            animationHelper.revealMenu(this, mFab, mRevealView, false);
+            if (mShowOverlay)
+                animationHelper.showOverlay(mOverlayLayout);
         }
-
     }
 
     /**
@@ -439,33 +392,10 @@ public class FABRevealMenu extends FrameLayout {
 
         if (FAB_CURRENT_STATE == FAB_STATE_EXPANDED) {
             FAB_CURRENT_STATE = FAB_STATE_COLLAPSED;
-            if (menuStateChangedListener != null) menuStateChangedListener.onCollapse();
-
-            int initialRadius = Math.max(mBaseView.getWidth(), mBaseView.getHeight());
-            animationHelper.revealMenu(mBaseView, initialRadius, mFab.getWidth() / 2, true, new AnimationListener() {
-                @Override
-                public void onStart() {
-                    if (menuAdapter != null) {
-                        menuAdapter.resetAdapter(true);
-                    }
-                    if (mOverlayLayout != null) {
-                        animationHelper.hideOverlay(mOverlayLayout);
-                    }
-                }
-
-                @Override
-                public void onEnd() {
-                    mRevealView.setVisibility(View.INVISIBLE);
-                }
-            });
-
-            // Show FAB after a delay
-            postDelayed(() -> animationHelper.moveFab(mFab, mRevealView, mDirection, true, new AnimationListener() {
-                @Override
-                public void onStart() {
-                    mFab.setVisibility(View.VISIBLE);
-                }
-            }), AnimationHelper.REVEAL_DURATION - 50);
+            viewHelper.alignMenuWithFab(mFab, mRevealView, mDirection);
+            animationHelper.revealMenu(this, mFab, mRevealView, true);
+            if (mShowOverlay)
+                animationHelper.hideOverlay(mOverlayLayout);
         }
     }
 
@@ -512,19 +442,6 @@ public class FABRevealMenu extends FrameLayout {
 
     private boolean isMenuSmall() {
         return mMenuSize == FAB_MENU_SIZE_SMALL;
-    }
-
-    /**
-     * Set normal size for menu item
-     */
-    public void enableItemAnimation(boolean enabled) {
-        animateItems = enabled;
-        if (menuAdapter != null) {
-            post(() -> {
-                menuAdapter.setAnimateItems(enabled);
-                menuAdapter.notifyDataSetChanged();
-            });
-        }
     }
 
     /**
