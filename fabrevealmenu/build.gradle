@@ -1,17 +1,16 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'com.github.dcendents.android-maven'
-
-group='com.github.hlab'
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
 
 android {
-    compileSdkVersion 29
+    compileSdk = 32
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 5
-        versionName "2.0.0"
+        minSdk 24
+        targetSdk 32
+        versionCode 2
+        versionName "2.0.1"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -24,23 +23,17 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'com.google.android.material:material:1.2.0'
-    implementation "androidx.core:core-ktx:+"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'com.google.android.material:material:1.6.1'
 
-}
-
-ext {
-    PUBLISH_GROUP_ID = 'com.hlab.fabrevealmenu'
-    PUBLISH_ARTIFACT_ID = 'fab-reveal-menu'
-    PUBLISH_VERSION = '2.0.0'
-}
-repositories {
-    mavenCentral()
 }

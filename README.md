@@ -27,7 +27,7 @@ compileOptions {
 ....
 
 dependencies {
-        implementation 'com.github.HarinTrivedi:FABRevealMenu-master:2.0.0'
+        implementation 'com.github.HarinTrivedi:FABRevealMenu-master:2.0.1'
 }
     
 ````
@@ -95,7 +95,7 @@ All attributes can also be set/altered by below methods:
     setShowOverlay(boolean) // change overlay visibility : be careful to use this
     setTitleVisible(boolean) // set menu item title visibility
     setMenuTitleTextColor(@ColorRes) // change menu item text color
-    setMenuDirection(Direction) // change menu direction when showed : place FAB on screen properly to change directions
+    setMenuDirection(Direction) // change menu revealDirection when showed : place FAB on screen properly to change directions
     setSmallerMenu() // small size menu
     setNormalMenu() // normal size menu
     setMenuTitleDisabledTextColor(@ColorRes) // set disable text color
@@ -115,7 +115,7 @@ You can inflate custom view by two ways
 
 ## LICENSE
 ````
-Copyright 2020 Harry's Lab
+Copyright 2022 Harry's Lab
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

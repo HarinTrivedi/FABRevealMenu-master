@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hlab.fabrevealmenu.R;
-import com.hlab.fabrevealmenu.helper.Direction;
+import com.hlab.fabrevealmenu.helper.RevealDirection;
 import com.hlab.fabrevealmenu.model.FABMenuItem;
 
 import java.util.List;
@@ -27,12 +27,12 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
     private boolean showIcon = true;
     private int titleTextColor;
     private int titleDisabledTextColor;
-    private Direction direction;
+    private RevealDirection revealDirection;
     private boolean isCircularShape;
     private Typeface mMenuTitleTypeface;
 
     FABMenuAdapter(FABRevealMenu parent, List<FABMenuItem> mItems, int rowLayoutResId, boolean isCircularShape, int titleTextColor, int titleDisabledTextColor,
-                   boolean showTitle, boolean showIcon, Direction direction) {
+                   boolean showTitle, boolean showIcon, RevealDirection revealDirection) {
         this.parent = parent;
         this.mItems = mItems;
         this.rowLayoutResId = rowLayoutResId;
@@ -41,7 +41,7 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
         this.showIcon = showIcon;
         this.titleTextColor = titleTextColor;
         this.titleDisabledTextColor = titleDisabledTextColor;
-        this.direction = direction;
+        this.revealDirection = revealDirection;
     }
 
     @NonNull
@@ -116,12 +116,12 @@ public class FABMenuAdapter extends RecyclerView.Adapter<FABMenuAdapter.ViewHold
         this.titleDisabledTextColor = titleDisabledTextColor;
     }
 
-    public Direction getDirection() {
-        return direction;
+    public RevealDirection getDirection() {
+        return revealDirection;
     }
 
-    void setDirection(Direction direction) {
-        this.direction = direction;
+    void setDirection(RevealDirection revealDirection) {
+        this.revealDirection = revealDirection;
     }
 
     void setMenuTitleTypeface(Typeface mMenuTitleTypeface) {

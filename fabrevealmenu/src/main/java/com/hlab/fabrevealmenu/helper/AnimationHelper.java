@@ -14,7 +14,7 @@ import com.google.android.material.transition.MaterialContainerTransform;
 
 public class AnimationHelper {
 
-    private int duration;
+    private final int duration;
 
     public AnimationHelper(int duration) {
         this.duration = duration;

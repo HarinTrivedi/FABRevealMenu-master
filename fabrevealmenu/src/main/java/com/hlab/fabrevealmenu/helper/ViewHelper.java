@@ -73,7 +73,7 @@ public class ViewHelper {
     /**
      * Aligns the sheet's position with the FAB.
      */
-    public void alignMenuWithFab(View mFab, View mRevealView, Direction mDirection) {
+    public void alignMenuWithFab(View mFab, View mRevealView, RevealDirection mRevealDirection) {
         ViewGroup.MarginLayoutParams sheetLayoutParams = (ViewGroup.MarginLayoutParams)
                 mRevealView.getLayoutParams();
         ViewGroup.MarginLayoutParams fabLayoutParams = (ViewGroup.MarginLayoutParams)
@@ -99,17 +99,17 @@ public class ViewHelper {
         float sheetX = mRevealView.getX();
         float sheetY = mRevealView.getY();
 
-        if (mDirection == Direction.LEFT || mDirection == Direction.UP) {
+        if (mRevealDirection == RevealDirection.LEFT || mRevealDirection == RevealDirection.UP) {
             // Align the right side of the sheet with the right side of the FAB
             mRevealView.setX(sheetX - rightDiff - sheetLayoutParams.rightMargin);
             // Align the bottom of the sheet with the bottom of the FAB
             mRevealView.setY(sheetY - bottomDiff - sheetLayoutParams.bottomMargin);
-        } else if (mDirection == Direction.RIGHT) {
+        } else if (mRevealDirection == RevealDirection.RIGHT) {
             // align the left side of the sheet with the left side of the FAB
             mRevealView.setX(sheetX - leftDiff + sheetLayoutParams.leftMargin);
             // Align the bottom of the sheet with the bottom of the FAB
             mRevealView.setY(sheetY - bottomDiff - sheetLayoutParams.bottomMargin);
-        } else if (mDirection == Direction.DOWN) {
+        } else if (mRevealDirection == RevealDirection.DOWN) {
             // align the top of the sheet with the top of the FAB
             mRevealView.setY(sheetY - topDiff + sheetLayoutParams.topMargin);
             // Align the right side of the sheet with the right side of the FAB

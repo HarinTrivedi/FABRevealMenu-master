@@ -4,7 +4,6 @@ package com.hlabexamples.fabrevealmenu;
 import androidx.fragment.app.Fragment;
 
 import com.hlab.fabrevealmenu.view.FABRevealMenu;
-
 /**
  * A simple {@link Fragment} subclass.
  */

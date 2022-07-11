@@ -15,14 +15,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.hlab.fabrevealmenu.helper.Direction;
+import com.hlab.fabrevealmenu.helper.RevealDirection;
 import com.hlab.fabrevealmenu.helper.OnFABMenuSelectedListener;
 import com.hlab.fabrevealmenu.view.FABRevealMenu;
 
 public class DemoXmlFragment extends BaseFragment implements OnFABMenuSelectedListener {
 
     private String[] mDirectionStrings = {"LEFT", "UP"};
-    private Direction currentDirection = Direction.LEFT;
+    private RevealDirection currentRevealDirection = RevealDirection.LEFT;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,12 +64,12 @@ public class DemoXmlFragment extends BaseFragment implements OnFABMenuSelectedLi
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (fabMenu != null) {
-                    if (position == 0 && currentDirection != Direction.LEFT) {
-                        currentDirection = Direction.LEFT;
-                        fabMenu.setMenuDirection(Direction.LEFT);
-                    } else if (position == 1 && currentDirection != Direction.UP) {
-                        currentDirection = Direction.UP;
-                        fabMenu.setMenuDirection(Direction.UP);
+                    if (position == 0 && currentRevealDirection != RevealDirection.LEFT) {
+                        currentRevealDirection = RevealDirection.LEFT;
+                        fabMenu.setMenuDirection(RevealDirection.LEFT);
+                    } else if (position == 1 && currentRevealDirection != RevealDirection.UP) {
+                        currentRevealDirection = RevealDirection.UP;
+                        fabMenu.setMenuDirection(RevealDirection.UP);
                     }
                 }
             }
@@ -77,7 +77,7 @@ public class DemoXmlFragment extends BaseFragment implements OnFABMenuSelectedLi
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 if (fabMenu != null) {
-                    fabMenu.setMenuDirection(Direction.LEFT);
+                    fabMenu.setMenuDirection(RevealDirection.LEFT);
                 }
             }
         });

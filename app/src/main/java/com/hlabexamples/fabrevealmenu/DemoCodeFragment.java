@@ -19,7 +19,7 @@ import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.hlab.fabrevealmenu.helper.Direction;
+import com.hlab.fabrevealmenu.helper.RevealDirection;
 import com.hlab.fabrevealmenu.helper.OnFABMenuSelectedListener;
 import com.hlab.fabrevealmenu.model.FABMenuItem;
 import com.hlab.fabrevealmenu.view.FABRevealMenu;
@@ -31,7 +31,7 @@ public class DemoCodeFragment extends BaseFragment implements OnFABMenuSelectedL
 
     private ArrayList<FABMenuItem> items;
     private String[] mDirectionStrings = {"LEFT", "UP"};
-    private Direction currentDirection = Direction.LEFT;
+    private RevealDirection currentRevealDirection = RevealDirection.LEFT;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,7 +95,7 @@ public class DemoCodeFragment extends BaseFragment implements OnFABMenuSelectedL
         cbFont.setOnCheckedChangeListener((compoundButton, b) -> {
             if (fabMenu != null) {
                 //set custom font typeface
-                fabMenu.setMenuTitleTypeface(ResourcesCompat.getFont(Objects.requireNonNull(getActivity()), R.font.quicksand));
+                fabMenu.setMenuTitleTypeface(ResourcesCompat.getFont(requireActivity(), R.font.quicksand));
             }
         });
         CheckBox chSmall = view.findViewById(R.id.chSmall);
@@ -108,17 +108,17 @@ public class DemoCodeFragment extends BaseFragment implements OnFABMenuSelectedL
             }
         });
         Spinner spDirections = view.findViewById(R.id.spDirection);
-        spDirections.setAdapter(new ArrayAdapter<>(Objects.requireNonNull(getActivity()), android.R.layout.simple_spinner_dropdown_item, mDirectionStrings));
+        spDirections.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, mDirectionStrings));
         spDirections.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (fabMenu != null) {
-                    if (position == 0 && currentDirection != Direction.LEFT) {
-                        currentDirection = Direction.LEFT;
-                        fabMenu.setMenuDirection(Direction.LEFT);
-                    } else if (position == 1 && currentDirection != Direction.UP) {
-                        currentDirection = Direction.UP;
-                        fabMenu.setMenuDirection(Direction.UP);
+                    if (position == 0 && currentRevealDirection != RevealDirection.LEFT) {
+                        currentRevealDirection = RevealDirection.LEFT;
+                        fabMenu.setMenuDirection(RevealDirection.LEFT);
+                    } else if (position == 1 && currentRevealDirection != RevealDirection.UP) {
+                        currentRevealDirection = RevealDirection.UP;
+                        fabMenu.setMenuDirection(RevealDirection.UP);
                     }
                 }
             }
@@ -126,7 +126,7 @@ public class DemoCodeFragment extends BaseFragment implements OnFABMenuSelectedL
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 if (fabMenu != null) {
-                    fabMenu.setMenuDirection(Direction.LEFT);
+                    fabMenu.setMenuDirection(RevealDirection.LEFT);
                 }
             }
         });
@@ -134,7 +134,7 @@ public class DemoCodeFragment extends BaseFragment implements OnFABMenuSelectedL
 
     private void initItems(boolean toShowDoubleItems) {
         items = new ArrayList<>();
-        items.add(new FABMenuItem("Attachments", AppCompatResources.getDrawable(Objects.requireNonNull(getActivity()), R.drawable.ic_attachment)));
+        items.add(new FABMenuItem("Attachments", AppCompatResources.getDrawable(requireActivity(), R.drawable.ic_attachment)));
         items.add(new FABMenuItem("Images", AppCompatResources.getDrawable(getActivity(), R.drawable.ic_image)));
         items.add(new FABMenuItem("Places", AppCompatResources.getDrawable(getActivity(), R.drawable.ic_place)));
         items.add(new FABMenuItem("Emoticons", AppCompatResources.getDrawable(getActivity(), R.drawable.ic_emoticon)));

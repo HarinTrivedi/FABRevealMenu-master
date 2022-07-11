@@ -27,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hlab.fabrevealmenu.R;
 import com.hlab.fabrevealmenu.helper.AnimationHelper;
-import com.hlab.fabrevealmenu.helper.Direction;
+import com.hlab.fabrevealmenu.helper.RevealDirection;
 import com.hlab.fabrevealmenu.helper.OnFABMenuSelectedListener;
 import com.hlab.fabrevealmenu.helper.ViewHelper;
 import com.hlab.fabrevealmenu.model.FABMenuItem;
@@ -53,7 +53,7 @@ public class FABRevealMenu extends FrameLayout {
     private int mOverlayBackground;
     private boolean mShowOverlay;
     private int mMenuSize;
-    private Direction mDirection;
+    private RevealDirection mRevealDirection;
     private boolean mShowTitle;
     private boolean mShowIcon;
     private int mTitleTextColor;
@@ -110,7 +110,7 @@ public class FABRevealMenu extends FrameLayout {
                 mCustomView = LayoutInflater.from(context).inflate(customView, null);
 
             //direction
-            mDirection = Direction.fromId(a.getInt(R.styleable.FABRevealMenu_menuDirection, 0));
+            mRevealDirection = RevealDirection.fromId(a.getInt(R.styleable.FABRevealMenu_menuDirection, 0));
 
             //title
             mTitleTextColor = a.getColor(R.styleable.FABRevealMenu_menuTitleTextColor, getColor(android.R.color.white));
@@ -222,8 +222,6 @@ public class FABRevealMenu extends FrameLayout {
         setUpMenuView();
     }
 
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setUpMenu(@NonNull Menu menu) throws IllegalStateException {
         menuList = new ArrayList<>();
         if (menu.size() > 0) {
@@ -244,12 +242,12 @@ public class FABRevealMenu extends FrameLayout {
             boolean isCircularShape = false;
 
             //set layout manager
-            if (mDirection == Direction.LEFT || mDirection == Direction.RIGHT) {
+            if (mRevealDirection == RevealDirection.LEFT || mRevealDirection == RevealDirection.RIGHT) {
                 int minItemWidth = isMenuSmall() ? (int) mContext.getResources().getDimension(R.dimen.column_size_small) : (int) mContext.getResources().getDimension(R.dimen.column_size);
                 int rowLayoutResId = isMenuSmall() ? R.layout.row_horizontal_menu_item_small : R.layout.row_horizontal_menu_item;
 
                 mMenuView.setLayoutManager(new DynamicGridLayoutManager(mContext, minItemWidth, menuList.size()));
-                menuAdapter = new FABMenuAdapter(this, menuList, rowLayoutResId, true, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mShowIcon, mDirection);
+                menuAdapter = new FABMenuAdapter(this, menuList, rowLayoutResId, true, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mShowIcon, mRevealDirection);
                 if (mMenuTitleTypeface != null)
                     menuAdapter.setMenuTitleTypeface(mMenuTitleTypeface);
 
@@ -258,7 +256,7 @@ public class FABRevealMenu extends FrameLayout {
                 int rowLayoutResId = isMenuSmall() ? R.layout.row_vertical_menu_item_small : R.layout.row_vertical_menu_item;
 
                 mMenuView.setLayoutManager(new DynamicGridLayoutManager(mContext, 0, 0));
-                menuAdapter = new FABMenuAdapter(this, menuList, rowLayoutResId, isCircularShape, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mShowIcon, mDirection);
+                menuAdapter = new FABMenuAdapter(this, menuList, rowLayoutResId, isCircularShape, mTitleTextColor, mTitleDisabledTextColor, mShowTitle, mShowIcon, mRevealDirection);
                 if (mMenuTitleTypeface != null)
                     menuAdapter.setMenuTitleTypeface(mMenuTitleTypeface);
 
@@ -309,7 +307,7 @@ public class FABRevealMenu extends FrameLayout {
         mFab.post(() -> {
             ViewCompat.setTransitionName(mFab, "FAB");
             mFab.setOnClickListener(v -> showMenu());
-            viewHelper.alignMenuWithFab(mFab, mRevealView, mDirection);
+            viewHelper.alignMenuWithFab(mFab, mRevealView, mRevealDirection);
         });
     }
 
@@ -374,7 +372,7 @@ public class FABRevealMenu extends FrameLayout {
         }
         if (FAB_CURRENT_STATE == FAB_STATE_COLLAPSED) {
             FAB_CURRENT_STATE = FAB_STATE_EXPANDED;
-            viewHelper.alignMenuWithFab(mFab, mRevealView, mDirection);
+            viewHelper.alignMenuWithFab(mFab, mRevealView, mRevealDirection);
             animationHelper.revealMenu(this, mFab, mRevealView, false);
             if (mShowOverlay)
                 animationHelper.showOverlay(mOverlayLayout);
@@ -392,7 +390,7 @@ public class FABRevealMenu extends FrameLayout {
 
         if (FAB_CURRENT_STATE == FAB_STATE_EXPANDED) {
             FAB_CURRENT_STATE = FAB_STATE_COLLAPSED;
-            viewHelper.alignMenuWithFab(mFab, mRevealView, mDirection);
+            viewHelper.alignMenuWithFab(mFab, mRevealView, mRevealDirection);
             animationHelper.revealMenu(this, mFab, mRevealView, true);
             if (mShowOverlay)
                 animationHelper.hideOverlay(mOverlayLayout);
@@ -463,7 +461,7 @@ public class FABRevealMenu extends FrameLayout {
     public void setTitleVisible(boolean mShowTitle) {
         this.mShowTitle = mShowTitle;
         if (menuAdapter != null) {
-            if (mShowTitle && (mDirection == Direction.UP || mDirection == Direction.DOWN))
+            if (mShowTitle && (mRevealDirection == RevealDirection.UP || mRevealDirection == RevealDirection.DOWN))
                 mBaseView.setMinimumWidth(getResources().getDimensionPixelSize(R.dimen.menu_min_width));
             else
                 mBaseView.setMinimumWidth(LayoutParams.WRAP_CONTENT);
@@ -489,14 +487,14 @@ public class FABRevealMenu extends FrameLayout {
         }
     }
 
-    public Direction getMenuDirection() {
-        return mDirection;
+    public RevealDirection getMenuDirection() {
+        return mRevealDirection;
     }
 
-    public void setMenuDirection(Direction mDirection) {
-        this.mDirection = mDirection;
+    public void setMenuDirection(RevealDirection mRevealDirection) {
+        this.mRevealDirection = mRevealDirection;
         if (menuAdapter != null) {
-            menuAdapter.setDirection(mDirection);
+            menuAdapter.setDirection(mRevealDirection);
             post(this::recreateView);
         }
     }
