@@ -1,5 +1,7 @@
 # FABRevealMenu 2.0 ✌️
 ***
+## Coming soon for Jetpack Compoe!!
+***
 An simple general purpose UI library to create custom user defied menu in modern way with your favourite Floating action button. It incorporates lollipop circular reveal view with cool animations somewhat inspired from google material design guideline <https://material.google.com/components/buttons-floating-action-button.html#buttons-floating-action-button-transitions>
 
 Uses [Material Container Transformation](https://material.io/develop/android/theming/motion#container-transform) from material components by Google.
